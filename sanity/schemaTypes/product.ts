@@ -18,78 +18,64 @@ const subCategories = [
   // Office Supplies
   { title: "Office Desk Accessories", value: "Office Desk Accessories" },
   { title: "Pens, Pencils and Markers", value: "Pens, Pencils and Markers" },
-  {
-    title: "Office Files and Document Storage",
-    value: "Office Files and Document Storage",
-  },
-  {
-    title: "Paper and Writing Materials",
-    value: "Paper and Writing Materials",
-  },
+  { title: "Office Files and Document Storage", value: "Office Files and Document Storage" },
+  { title: "Paper and Writing Materials", value: "Paper and Writing Materials" },
   { title: "General Office Consumables", value: "General Office Consumables" },
-  {
-    title: "Calendars and Office Diaries",
-    value: "Calendars and Office Diaries",
-  },
+  { title: "Calendars and Office Diaries", value: "Calendars and Office Diaries" },
+
   // School Supplies
-  {
-    title: "School Bags and Lunch Items",
-    value: "School Bags and Lunch Items",
-  },
-  {
-    title: "Arts, Crafts and Drawing Materials",
-    value: "Arts, Crafts and Drawing Materials",
-  },
-  {
-    title: "Classroom Teaching Materials",
-    value: "Classroom Teaching Materials",
-  },
-  {
-    title: "Learning and Instructional Materials",
-    value: "Learning and Instructional Materials",
-  },
+  { title: "Arts, Crafts and Drawing Materials", value: "Arts, Crafts and Drawing Materials" },
+  { title: "Classroom Teaching Materials", value: "Classroom Teaching Materials" },
+  { title: "Learning and Instructional Materials", value: "Learning and Instructional Materials" },
   { title: "Nursery and Creche Items", value: "Nursery and Creche Items" },
+
   // Ink & Toner
   { title: "Printer Ink Cartridges", value: "Printer Ink Cartridges" },
   { title: "Printer Toner Cartridges", value: "Printer Toner Cartridges" },
   { title: "Printer Consumables", value: "Printer Consumables" },
+
   // Furniture
   { title: "Office Chairs", value: "Office Chairs" },
   { title: "Office Tables & Desks", value: "Office Tables & Desks" },
   { title: "Office Storage", value: "Office Storage" },
   { title: "Office Decor & Lighting", value: "Office Decor & Lighting" },
   { title: "Office Organization", value: "Office Organization" },
-  // Computer
+
+  // Computer & Accessories
   { title: "Computer Accessories", value: "Computer Accessories" },
   { title: "Storage Devices", value: "Storage Devices" },
   { title: "Laptops & Gadgets", value: "Laptops & Gadgets" },
   { title: "Networking Equipment", value: "Networking Equipment" },
   { title: "Computer Parts", value: "Computer Parts" },
+
   // Electronics
   { title: "Audio Devices", value: "Audio Devices" },
   { title: "Gaming Accessories", value: "Gaming Accessories" },
   { title: "Power Solutions", value: "Power Solutions" },
   { title: "Smart Devices", value: "Smart Devices" },
+
   // Cleaning
   { title: "Cleaning Chemicals", value: "Cleaning Chemicals" },
   { title: "Cleaning Tools", value: "Cleaning Tools" },
   { title: "Air & Ventilation", value: "Air & Ventilation" },
+
   // Breakroom
   { title: "Drinks", value: "Drinks" },
   { title: "Snacks", value: "Snacks" },
   { title: "Kitchen Appliances", value: "Kitchen Appliances" },
-  // Mailing
+
+  // Mailing & Shipping
   { title: "Packaging Boxes", value: "Packaging Boxes" },
   { title: "Envelopes & Mailers", value: "Envelopes & Mailers" },
   { title: "Packaging Materials", value: "Packaging Materials" },
-  //  Shop Greener Products
+
+  // Shop-Greener-Products
   { title: "Eco Office Supplies", value: "Eco Office Supplies" },
   { title: "Sustainable Living", value: "Sustainable Living" },
 ];
 
 const subNames = [
-  // A condensed list of the "Items" from your array to act as the 3rd level filter
-  // Office Desk
+  // Office Desk Accessories
   "Staplers and Punchers",
   "Cellotape and Tape Dispensers",
   "Office Desk Organisers",
@@ -98,7 +84,8 @@ const subNames = [
   "Measuring Rulers and Scales",
   "Pen Holders and Pencil Cups",
   "Office Writing Pads",
-  // Pens
+
+  // Pens, Pencils and Markers
   "Biro Pens",
   "Gel Pens and Rollerball Pens",
   "Office Highlighters",
@@ -107,7 +94,8 @@ const subNames = [
   "Correction Fluid and Correction Tape",
   "Pen Refills",
   "Fancy and Fountain Pens",
-  // Files
+
+  // Office Files and Document Storage
   "Office File Jackets",
   "Expanding File Folders",
   "Suspension Files",
@@ -115,7 +103,8 @@ const subNames = [
   "Office Labels and Price Tags",
   "Sectional File Folders",
   "Ring Binders",
-  // Paper
+
+  // Paper and Writing Materials
   "A4 Printing Paper",
   "Exercise Books and Notebooks",
   "Sticky Notes",
@@ -124,7 +113,8 @@ const subNames = [
   "Loose Writing Sheets",
   "Legal Writing Pads",
   "Photo Printing Paper",
-  // Consumables
+
+  // General Office Consumables
   "Paper Clips",
   "Rubber Bands",
   "Drawing Pins",
@@ -133,16 +123,282 @@ const subNames = [
   "Office Batteries",
   "First Aid Boxes",
   "Office Scissors",
-  // Calendars
+
+  // Calendars and Office Diaries
   "Wall Calendars",
   "Desk Calendars",
   "Office Diaries",
   "Academic Planners",
   "Whiteboards and Notice Boards",
-  // ... (You can add the rest of the specific items here if you want them in a dropdown,
-  // otherwise the user can type them in the 'name' field)
-];
 
+  // School Bags and Lunch Items
+  "Primary School Backpacks",
+  "Laptop School Bags",
+  "Lunch Bags and Lunch Boxes",
+  "Plastic Water Bottles",
+  "Drawstring School Bags",
+  "Side and Shoulder Bags",
+
+  // Arts, Crafts and Drawing Materials
+  "Crayons and Colour Pencils",
+  "Washable Markers",
+  "Drawing and Art Paper",
+  "Glitter, Gum and Adhesives",
+  "Drawing Books and Sketch Pads",
+  "Water Colour Paint",
+  "Poster and Acrylic Paint",
+
+  // Classroom Teaching Materials
+  "Whiteboards",
+  "Notice Boards",
+  "Educational Wall Charts",
+  "Board Markers",
+  "Board Borders and Trimmers",
+  "Teacher Storage Organisers",
+
+  // Learning and Instructional Materials
+  "Scientific Calculators",
+  "Mathematical Sets",
+  "Flash Cards",
+  "Teaching Aids",
+  "World Globes",
+  "Basic Science Kits",
+
+  // Nursery and Creche Items
+  "Educational Puzzles",
+  "Building Blocks",
+  "Children Story Books",
+  "Finger Paint",
+  "Alphabet Learning Toys",
+
+  // Printer Ink Cartridges
+  "HP Ink Cartridges",
+  "Epson Printer Ink",
+  "Canon Printer Ink",
+  "Brother Printer Ink",
+  "Compatible Ink Cartridges",
+
+  // Printer Toner Cartridges
+  "HP Laser Toner",
+  "Brother Laser Toner",
+  "Canon Laser Toner",
+  "Samsung Toner",
+  "Xerox Toner",
+
+  // Printer Consumables
+  "Photo Printing Paper",
+  "EcoTank Ink Bottles",
+  "Original and Compatible Cartridges",
+  "Printer Maintenance Kits",
+
+  // Office Chairs
+  "Executive Office Chairs",
+  "Mesh Office Chairs",
+  "Visitor Chairs",
+  "Secretarial Chairs",
+  "Drafting Chairs",
+  "Gaming Chairs",
+  "Heavy Duty Chairs",
+
+  // Office Tables & Desks
+  "Office Workstations",
+  "Office Tables",
+  "Computer Tables",
+  "Conference Tables",
+  "Training Tables",
+  "Folding Tables",
+  "Reception Counters",
+
+  // Office Storage
+  "Filing Cabinets",
+  "Office Book Shelves",
+  "Metal Cabinets",
+  "Office Lockers",
+  "Office Safes",
+  "Drawer Units",
+  "Steel Shelving",
+
+  // Office Decor & Lighting
+  "Table Lamps",
+  "Standing Lamps",
+  "Office Rugs",
+  "Wall Clocks",
+  "Artificial Flowers",
+  "Picture Frames",
+  "Office Mirrors",
+
+  // Office Organization
+  "Coat Hangers",
+  "Document Racks",
+  "Magazine Holders",
+  "Garment Racks",
+  "Wall File Holders",
+
+  // Computer Accessories
+  "Wireless Mouse",
+  "USB Keyboards",
+  "Web Cameras",
+  "Microphones",
+  "Computer Speakers",
+  "Mouse Pads",
+  "Drawing Tablets",
+  "Game Controllers",
+
+  // Storage Devices
+  "External Hard Drives",
+  "Portable SSDs",
+  "Flash Drives",
+  "Memory Cards",
+  "Backup Drives",
+  "Network Storage",
+
+  // Laptops & Gadgets
+  "Business Laptops",
+  "Student Laptops",
+  "Tablets",
+  "Laptop Bags",
+  "Privacy Screens",
+  "Laptop Stands",
+  "iPad Accessories",
+
+  // Networking Equipment
+  "Wi-Fi Routers",
+  "Network Switches",
+  "LAN Cables",
+  "Wi-Fi Extenders",
+  "Modems",
+  "Network Adapters",
+  "Fiber Optic Cables",
+
+  // Computer Parts
+  "SSD & HDD",
+  "RAM",
+  "Graphics Cards",
+  "Processors",
+  "Power Supply Units",
+  "Motherboards",
+  "System Units",
+
+  // Audio Devices
+  "Wireless Headsets",
+  "Bluetooth Earphones",
+  "Sound Systems",
+  "Portable Speakers",
+  "Public Address Systems",
+  "Mixers",
+
+  // Gaming Accessories
+  "Game Controllers",
+  "Gaming Headphones",
+  "RGB Keyboards",
+  "Gaming Mouse",
+  "Gaming Monitors",
+  "Steering Wheels",
+
+  // Power Solutions
+  "Power Banks",
+  "Extension Boxes",
+  "UPS Inverters",
+  "Charging Cables",
+  "USB Hubs",
+  "Voltage Regulators",
+  "Power Adapters",
+
+  // Smart Devices
+  "CCTV Cameras",
+  "Smart Bulbs",
+  "Smart Sockets",
+  "Video Door Phones",
+  "Smart Door Locks",
+
+  // Cleaning Chemicals
+  "Disinfectants",
+  "Hand Sanitizers",
+  "Floor Wash",
+  "Glass Cleaners",
+  "Liquid Soap",
+  "Industrial Degreasers",
+  "Laundry Soap",
+
+  // Cleaning Tools
+  "Brooms",
+  "Mops",
+  "Cleaning Cloths",
+  "Waste Bins",
+  "Tissue Paper",
+  "Vacuum Cleaners",
+  "Buckets",
+
+  // Air & Ventilation
+  "Air Fresheners",
+  "Standing Fans",
+  "Wall Fans",
+  "Dehumidifiers",
+  "Heaters",
+
+  // Drinks
+  "Coffee",
+  "Tea",
+  "Bottled Water",
+  "Soft Drinks",
+  "Fruit Juice",
+  "Energy Drinks",
+  "Chocolate Drinks",
+
+  // Snacks
+  "Biscuits",
+  "Chips",
+  "Sweets",
+  "Sugar & Sweeteners",
+  "Creamers",
+  "Light Snacks",
+  "Protein Snacks",
+
+  // Kitchen Appliances
+  "Microwave Ovens",
+  "Electric Kettles",
+  "Coffee Machines",
+  "Mini Refrigerators",
+  "Toasters",
+  "Water Dispensers",
+
+  // Packaging Boxes
+  "Carton Boxes",
+  "Moving Cartons",
+  "Storage Boxes",
+  "Poster Tubes",
+  "Heavy Duty Cartons",
+
+  // Envelopes & Mailers
+  "Bubble Envelopes",
+  "Courier Bags",
+  "Padded Envelopes",
+  "Office Envelopes",
+  "Document Envelopes",
+
+  // Packaging Materials
+  "Packing Tape",
+  "Bubble Nylon",
+  "Wrapping Paper",
+  "Stretch Film",
+  "Foam Packaging",
+  "Tape Dispensers",
+
+  // Eco Office Supplies
+  "Recycled Paper",
+  "Eco Pens",
+  "Bamboo Desk Items",
+  "Solar Chargers",
+  "Eco Cleaning Products",
+  "Recycled Envelopes",
+
+  // Sustainable Living
+  "Disposable Eco Plates",
+  "Wooden Cutlery",
+  "Organic Tea",
+  "Recycled Tissue",
+  "Solar Power Banks",
+];
 export default defineType({
   name: "product",
   title: "Product",
@@ -456,3 +712,4 @@ export default defineType({
     },
   },
 });
+export { categories, subCategories, subNames };
