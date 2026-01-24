@@ -1,0 +1,458 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { toast } from "react-toastify";
+import { urlFor } from "@/app/lib/sanity";
+
+type SanityImage = {
+  _type: "image";
+  asset: { _ref: string; _type: "reference" };
+};
+
+type CartItem = {
+  _id: string;
+  name: string;
+  price: string | number;
+  qty: number;
+  image: SanityImage[];
+};
+
+export default function Checkout() {
+  const [deliveryOption, setDeliveryOption] = useState<"ship" | "pickup">(
+    "ship",
+  );
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [Loading, setLoading] = useState(false);
+
+  // --- LOGIC CONSTANTS FROM CART ---
+  const VAT_RATE = 0.001;
+  const BASE_DELIVERY = 500;
+  const PER_ITEM_DELIVERY = 500;
+
+  const [formData, setFormData] = useState({
+    email: "",
+    phone: "",
+    firstName: "",
+    lastName: "",
+    address: "",
+    state: "",
+    newsletter: false,
+  });
+
+  const [discountCode, setDiscountCode] = useState("");
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [isDiscountApplied, setIsDiscountApplied] = useState(false);
+
+  useEffect(() => {
+    const saveCart = JSON.parse(localStorage.getItem("cart") || "[]");
+    setCartItems(saveCart);
+  }, []);
+
+  // --- REVISED CALCULATIONS ---
+
+  // 1. Base Subtotal
+  const baseSubtotal = cartItems.reduce((acc, item) => {
+    const priceNum =
+      typeof item.price === "number"
+        ? item.price
+        : parseFloat(String(item.price || "0").replace(/[^0-9.-]+/g, "")) || 0;
+    return acc + priceNum * (item.qty || 1);
+  }, 0);
+
+  // 2. Delivery Fee Logic (matches Cart)
+  const totalItems = cartItems.reduce((acc, item) => acc + (item.qty || 1), 0);
+
+  const deliveryFee =
+    deliveryOption === "pickup"
+      ? 0
+      : cartItems.length > 0
+        ? BASE_DELIVERY + (totalItems - 1) * PER_ITEM_DELIVERY
+        : 0;
+
+  // 3. Tax Logic (matches Cart)
+  const estimatedTax = baseSubtotal * VAT_RATE;
+
+  // 4. Grand Total
+  const finalGrandTotal = Math.max(
+    0,
+    baseSubtotal + deliveryFee + estimatedTax - discountAmount,
+  );
+
+  const applyObizzDiscount = () => {
+    const MINIMUM_ORDER = 50000;
+    if (discountCode.trim().toUpperCase() !== "OBIZZ") {
+      toast.error("Invalid discount code.");
+      return;
+    }
+    if (baseSubtotal < MINIMUM_ORDER) {
+      toast.error(
+        `Order must be above ₦${MINIMUM_ORDER.toLocaleString()} to use this code.`,
+      );
+      return;
+    }
+    if (isDiscountApplied) {
+      toast.error("Discount already applied.");
+      return;
+    }
+    const calculatedDiscount = Math.min(baseSubtotal * 0.02, 2000);
+    setDiscountAmount(calculatedDiscount);
+    setIsDiscountApplied(true);
+    toast.success("Discount applied successfully");
+  };
+
+  const removeDiscount = () => {
+    setDiscountCode("");
+    setDiscountAmount(0);
+    setIsDiscountApplied(false);
+    toast.success("Discount removed");
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handlePlaceOrder = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    if (
+      !formData.email ||
+      !formData.phone ||
+      !formData.firstName ||
+      !formData.lastName
+    ) {
+      toast.error("Please fill in all contact details.");
+      setLoading(false);
+      return;
+    }
+
+    if (deliveryOption === "ship" && (!formData.address || !formData.state)) {
+      toast.error("Please provide a delivery address.");
+      setLoading(false);
+      return;
+    }
+
+    // Prepare Order Data
+    const orderData = {
+      email: formData.email,
+      phone: formData.phone,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      address:
+        deliveryOption === "pickup"
+          ? "PICKUP FROM STORE"
+          : `${formData.address}, ${formData.state}`,
+      state: formData.state || "Lagos",
+      amount: finalGrandTotal,
+      cart: cartItems,
+      discountUsed: isDiscountApplied ? "OBIZZ" : null,
+      discountAmount: discountAmount,
+    };
+
+    try {
+      const res = await fetch("http://localhost:5000/api/orders/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderData),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        toast.success("Processing Payment...");
+        localStorage.setItem("payment_pending", "true");
+        window.location.href = data.checkoutUrl;
+      } else {
+        toast.error(data.error || "Order failed");
+      }
+    } catch {
+      toast.error("Server connection error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="px-[5%] lg:px-[12%] bg-(--prim-color) text-white py-5 mt-2">
+        <div className="flex justify-between items-center">
+          <h2 className="Unbounded text-lg md:text-2xl font-bold">Checkout</h2>
+          <div className="flex items-center gap-2 text-sm md:text-base">
+            <Link href="/" className="hover:underline Unbounded">
+              Home
+            </Link>
+            <span className="Unbounded">:</span>
+            <span className="opacity-80 Unbounded">Checkout</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="px-[5%] lg:px-[12%] py-10">
+        <div className="grid gap-8 lg:grid-cols-12 items-start">
+          {/* LEFT SIDE: Form */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              {/* Form Inputs remain same as your code */}
+              <h5 className="mb-4 Unbounded text-xl font-bold text-gray-800 border-b pb-2">
+                Contact Information
+              </h5>
+              <input
+                name="email"
+                type="email"
+                onChange={handleChange}
+                value={formData.email}
+                className="border border-gray-300 w-full p-3 rounded-lg mb-4 focus:ring-2 focus:ring-(--prim-color) outline-none"
+                placeholder="Email Address"
+                required
+              />
+              <input
+                name="phone"
+                type="tel"
+                onChange={handleChange}
+                value={formData.phone}
+                className="border border-gray-300 w-full p-3 rounded-lg mb-4 focus:ring-2 focus:ring-(--prim-color) outline-none"
+                placeholder="Phone Number (WhatsApp)"
+                required
+              />
+
+              <h5 className="mb-4 mt-8 Unbounded text-xl font-bold text-gray-800 border-b pb-2">
+                Delivery Method
+              </h5>
+              <div className="mb-6 flex gap-6">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="delivery"
+                    checked={deliveryOption === "ship"}
+                    onChange={() => setDeliveryOption("ship")}
+                    className="accent-(--prim-color)"
+                  />
+                  <span className="font-medium">Deliver to address</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="delivery"
+                    checked={deliveryOption === "pickup"}
+                    onChange={() => setDeliveryOption("pickup")}
+                    className="accent-(--prim-color)"
+                  />
+                  <span className="font-medium">Pickup</span>
+                </label>
+              </div>
+
+              {deliveryOption === "ship" && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <select
+                    name="state"
+                    onChange={handleChange}
+                    value={formData.state}
+                    className="border border-gray-300 rounded-lg p-3 md:col-span-2"
+                    required
+                  >
+                    <option value="">Select State</option>
+                    <option>Lagos</option>
+                    <option>Abuja</option>
+                    <option>Enugu</option>
+                    <option>Anambra</option>
+                    <option>Abuja</option>
+                    <option>Port-harcourt</option>
+                  </select>
+                  <input
+                    name="firstName"
+                    onChange={handleChange}
+                    value={formData.firstName}
+                    className="border border-gray-300 rounded-lg p-3"
+                    placeholder="First Name"
+                    required
+                  />
+                  <input
+                    name="lastName"
+                    onChange={handleChange}
+                    value={formData.lastName}
+                    className="border border-gray-300 rounded-lg p-3"
+                    placeholder="Last Name"
+                    required
+                  />
+                  <input
+                    name="address"
+                    onChange={handleChange}
+                    value={formData.address}
+                    className="border border-gray-300 rounded-lg p-3 md:col-span-2"
+                    placeholder="Street Address"
+                    required
+                  />
+                </div>
+              )}
+
+              <button
+                onClick={handlePlaceOrder}
+                disabled={Loading}
+                className="w-full bg-(--prim-color) text-white py-4 rounded-xl font-bold mt-8 hover:opacity-90 transition-all Unbounded text-sm uppercase tracking-widest disabled:opacity-70"
+              >
+                {Loading
+                  ? "PROCESSING..."
+                  : `PAY NOW — ₦${finalGrandTotal.toLocaleString()}`}
+              </button>
+            </div>
+          </div>
+
+          {/* RIGHT SIDE: Order Summary */}
+          <div className="lg:col-span-5 sticky top-6">
+            <div className="bg-white border border-gray-200 p-6 rounded-2xl shadow-md">
+              <h5 className="font-bold mb-4 flex items-center gap-2 Unbounded text-lg">
+                <i className="ri-shopping-cart-2-line text-(--prim-color)"></i>{" "}
+                Order Summary
+              </h5>
+
+              {/* Cart Items List */}
+              <div className="max-h-95 overflow-y-auto pr-2 mb-6 scrollbar-thin scrollbar-thumb-gray-300 pt-3">
+                {cartItems.map((item) => {
+                  const priceNum =
+                    typeof item.price === "number"
+                      ? item.price
+                      : parseFloat(
+                          String(item.price || "0").replace(/[^0-9.-]+/g, ""),
+                        ) || 0;
+                  return (
+                    <div
+                      key={item._id}
+                      className="flex items-center gap-4 border-b border-gray-50 pb-3 last:border-0"
+                    >
+                      <div className="relative shrink-0">
+                        {item.image && item.image[0] ? (
+                          <Image
+                            src={urlFor(item.image[0]).url()}
+                            alt={item.name}
+                            width={60}
+                            height={60}
+                            className="rounded-lg object-contain bg-gray-50"
+                          />
+                        ) : (
+                          <div className="w-14 h-14 bg-gray-100 rounded-lg"></div>
+                        )}
+                        <span className="absolute -top-2 -right-2 bg-(--prim-color) text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
+                          {item.qty}
+                        </span>
+                      </div>
+                      <div className="grow">
+                        <h6 className="Unbounded text-xs font-semibold text-gray-800 line-clamp-1">
+                          {item.name}
+                        </h6>
+                        <p className="text-(--prim-color) font-bold text-xs">
+                          ₦{priceNum.toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Discount Input */}
+              <div className="mb-6">
+                <div className="text-sm font-bold text-gray-700 mb-2 block">
+                  Discount Code
+                </div>
+                {!isDiscountApplied ? (
+                  <div className="flex gap-2">
+                    <input
+                      value={discountCode}
+                      onChange={(e) =>
+                        setDiscountCode(e.target.value.toUpperCase())
+                      }
+                      placeholder="Enter Code OBIZZ"
+                      className="flex-1 border border-gray-300 rounded-lg px-3 py-3 uppercase focus:outline-none"
+                    />
+                    <button
+                      onClick={applyObizzDiscount}
+                      className="bg-(--prim-color) text-white px-6 rounded-lg text-sm font-bold hover:bg-blue-600 transition"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                ) : (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex justify-between items-center">
+                    <div className="text-sm">
+                      <span className="text-green-800 font-medium">
+                        Applied:{" "}
+                      </span>
+                      <span className="font-bold text-green-900">
+                        {discountCode}
+                      </span>
+                      <span className="text-green-700 ml-1">
+                        (-₦{discountAmount.toLocaleString()})
+                      </span>
+                    </div>
+                    <button
+                      onClick={removeDiscount}
+                      className="Unbounded text-red-500 text-xs font-bold px-2 py-1 pl-8 cursor-pointer"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Totals Section - UPDATED TO MATCH CART */}
+              <div className="space-y-3 pt-4 border-t border-gray-100">
+                <div className="flex justify-between text-gray-500">
+                  <span className="Unbounded text-sm">Subtotal</span>
+                  <span className="Unbounded text-sm font-semibold text-gray-800">
+                    ₦{baseSubtotal.toLocaleString()}
+                  </span>
+                </div>
+
+                <div className="flex justify-between text-gray-500">
+                  <span className="Unbounded text-sm">Delivery Fee</span>
+                  <span className="Unbounded text-sm font-semibold text-gray-800">
+                    {deliveryOption === "pickup"
+                      ? "₦0 (Pickup)"
+                      : `₦${deliveryFee.toLocaleString()}`}
+                  </span>
+                </div>
+
+                <div className="flex justify-between text-gray-500">
+                  <span className="Unbounded text-sm">Est. VAT</span>
+                  <span className="Unbounded text-sm font-semibold text-gray-800">
+                    ₦{estimatedTax.toLocaleString()}
+                  </span>
+                </div>
+
+                {isDiscountApplied && (
+                  <div className="flex justify-between text-green-600">
+                    <span className="Unbounded text-sm">Discount</span>
+                    <span className="Unbounded text-sm font-semibold">
+                      -₦{discountAmount.toLocaleString()}
+                    </span>
+                  </div>
+                )}
+
+                <div className="flex justify-between pt-4 mt-2 border-t-2 border-gray-50">
+                  <span className="Unbounded text-lg font-bold text-gray-900">
+                    Total
+                  </span>
+                  <span className="Unbounded text-xl font-black text-(--prim-color)">
+                    ₦{finalGrandTotal.toLocaleString()}
+                  </span>
+                </div>
+
+                <Link href="/UI-Components/Pages/cart">
+                  <div className="bg-(--prim-color) text-white border mt-8 hover:opacity-90 tracking-widest border-gray-200 rounded-md px-4 py-2 w-full flex items-center justify-center">
+                    <button className="font-bold Unbounded">
+                      Back to Cart
+                    </button>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
