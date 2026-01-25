@@ -1,4 +1,4 @@
-## Steve Obizz Stationey Store 🛒
+## Steve Obizz Stationery Store 🛒
 
 A full-stack, modern e-commerce platform built for speed and scalability. This project specializes in Office Supplies, School Supplies, Electronics, and Furniture, featuring a dynamic product catalog managed via a Headless CMS (Sanity).
 
