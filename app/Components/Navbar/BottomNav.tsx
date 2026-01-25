@@ -532,7 +532,7 @@ const navLinks: NavLink[] = [
   { label: "Home", href: "/" },
   {
     label: "Shop",
-    href: "/shop",
+    href: "#",
     dropdown: [
       { label: "Shop All", href: "/UI-Components/Pages/shop" },
       { label: "Flash Sales", href: "/UI-Components/Pages/shop/flash-sales" },
