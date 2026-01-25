@@ -399,6 +399,7 @@ const subNames = [
   "Recycled Tissue",
   "Solar Power Banks",
 ];
+
 export default defineType({
   name: "product",
   title: "Product",
