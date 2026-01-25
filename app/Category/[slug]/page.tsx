@@ -20,8 +20,9 @@ interface Product {
   image: SanityImage[];
 }
 
-interface Params {
-  params: { slug: string };
+// 1. Update the Props interface to define params as a Promise
+interface Props {
+  params: Promise<{ slug: string }>;
 }
 
 /**
@@ -34,14 +35,19 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function CategoryPage({ params }: Params) {
+// 2. Update component signature to use the new Props interface
+export default async function CategoryPage({ params }: Props) {
+  // 3. Await the params before using them!
+  const { slug } = await params;
+
   const products = await sanityFetch<Product[]>(
     `*[_type == "product" && category->slug.current == $slug] | order(_createdAt desc)`,
-    { slug: params.slug }
+    // 4. Use the awaited 'slug' variable here
+    { slug } 
   );
 
   const categoryMeta = CATEGORIES_DATA.find(
-    (c) => c.slug === params.slug
+    (c) => c.slug === slug
   );
 
   if (!products.length) {
@@ -61,7 +67,8 @@ export default async function CategoryPage({ params }: Params) {
     <div className="max-w-7xl mx-auto px-6 py-12">
       <div className="flex items-center gap-4 mb-8">
         <h1 className="text-4xl font-bold">
-          {categoryMeta?.title ?? params.slug.replace(/-/g, ' ')}
+          {/* 5. Use the awaited 'slug' variable here too */}
+          {categoryMeta?.title ?? slug.replace(/-/g, ' ')}
         </h1>
       </div>
 
