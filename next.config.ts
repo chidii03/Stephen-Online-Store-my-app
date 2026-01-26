@@ -3,7 +3,6 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
-      // Legacy domains converted to patterns
       { hostname: "localhost" },
       { protocol: "https", hostname: "img.freepik.com" },
       { protocol: "https", hostname: "companieslogo.com" },
