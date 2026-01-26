@@ -80,7 +80,7 @@ const Newsletter = () => {
             width={1170}
             height={200}
           />
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 px-4 sm:px-7.5 xl:pl-12.5 xl:pr-14 py-11">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-center gap-8 px-4 sm:px-7.5 xl:pl-12.5 xl:pr-14 py-11">
             <div className="max-w-122.75 w-full">
               <h2 className="text-white font-bold text-lg sm:text-xl xl:text-heading-4 mb-3">
                 Don&apos;t Miss Out on Latest Trends
@@ -103,7 +103,7 @@ const Newsletter = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="inline-flex justify-center items-center py-3 px-7 text-white bg-blue-700 font-medium rounded-md hover:bg-blue-600  "
+                    className="inline-flex justify-center items-center py-3 px-7 text-white bg-blue-600 font-medium rounded-md hover:bg-blue-700"
                   >
                     {loading ? "Sending..." : "Subscribe"}
                   </button>
