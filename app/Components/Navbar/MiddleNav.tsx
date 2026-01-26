@@ -60,7 +60,7 @@ export default function MiddleNav() {
 
         {/* Icons - HIDDEN on Mobile, Visible on Desktop (lg) */}
         <div className="hidden lg:flex items-center space-x-8">
-          <Link href="/UI-Components/Pages/wishlist" className="relative group">
+          <Link href="/wishlist" className="relative group">
             <i className="bi bi-heart text-2xl text-gray-600 group-hover:text-(--prim-color)"></i>
             {wishlistCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-(--prim-color) text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
@@ -69,7 +69,7 @@ export default function MiddleNav() {
             )}
           </Link>
 
-          <Link href="/UI-Components/Pages/cart" className="relative group">
+          <Link href="/cart" className="relative group">
             <i className="bi bi-cart3 text-2xl  text-gray-600 group-hover:text-(--prim-color)"></i>
             {cartCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-(--prim-color) text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">

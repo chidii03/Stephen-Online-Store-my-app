@@ -64,7 +64,7 @@ export default function Hero() {
           autoplay={{ delay: 4000, disableOnInteraction: false }}
           pagination={{ clickable: true }}
           modules={[Autoplay, Pagination]}
-          className="h-full hero-swiper w-full"
+          className="h-full hero-swiper w-full mb-9"
         >
           {heroProducts.map((product) => (
             <SwiperSlide key={product._id}>

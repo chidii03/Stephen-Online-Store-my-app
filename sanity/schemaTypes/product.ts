@@ -515,20 +515,18 @@ export default defineType({
     }),
 
     // --- CATEGORY SECTION (KEEP AS-IS) ---
-    defineField({
-      name: "category",
-      title: "Main Category",
-      type: "string",
-      options: { list: categories },
-      validation: (Rule) => Rule.required(),
-    }),
+    // defineField({
+    //   name: "category",
+    //   title: "Main Category",
+    //   type: "string",
+    //   options: { list: categories },
+    // }),
 
     defineField({
       name: "subCategory",
       title: "Sub Category",
       type: "string",
       options: { list: subCategories },
-      validation: (Rule) => Rule.required(),
     }),
 
     defineField({

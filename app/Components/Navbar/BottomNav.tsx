@@ -542,8 +542,8 @@ const navLinks: NavLink[] = [
     label: "Pages",
     href: "#",
     dropdown: [
-      { label: "Cart", href: "/UI-Components/Pages/cart" },
-      { label: "Wishlist", href: "/UI-Components/Pages/wishlist" },
+      { label: "Cart", href: "/cart" },
+      { label: "Wishlist", href: "/wishlist" },
       { label: "Checkout", href: "/UI-Components/Pages/checkout" },
       { label: "Account", href: "/UI-Components/Pages/account" },
     ],
@@ -750,7 +750,7 @@ export default function BottomNav() {
           </div>
 
           <div className="flex items-center space-x-3 shrink-0">
-            <Link href="/UI-Components/Pages/wishlist" className="relative">
+            <Link href="/wishlist" className="relative">
               <i className="bi bi-heart text-xl text-gray-700"></i>
               {wishlistCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-(--prim-color) text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">
@@ -758,7 +758,7 @@ export default function BottomNav() {
                 </span>
               )}
             </Link>
-            <Link href="/UI-Components/Pages/cart" className="relative">
+            <Link href="/cart" className="relative">
               <i className="bi bi-cart3 text-xl text-gray-700"></i>
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-(--prim-color) text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">

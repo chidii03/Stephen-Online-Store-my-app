@@ -5,7 +5,8 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { urlFor } from "@/app/lib/sanity";
-import router from "next/navigation";
+import { useRouter } from "next/navigation";
+import LoadingSpinner from "@/app/Components/LoadingSpinner";
 
 type SanityImage = {
   _type: "image";
@@ -22,7 +23,7 @@ type CartItem = {
   review: string | number;
   ctg?: string;
   qty: number;
- slug: { current: string };
+  slug: { current: string };
   image: SanityImage[];
 };
 
@@ -30,16 +31,20 @@ export default function Cart() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [subtotal, setSubtotal] = useState<number>(0);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const router = useRouter();
 
   const VAT_RATE = 0.001;
   const BASE_DELIVERY = 500;
   const PER_ITEM_DELIVERY = 500;
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
     const loadCart = () => {
       try {
         const cart: CartItem[] = JSON.parse(
-          localStorage.getItem("cart") || "[]"
+          localStorage.getItem("cart") || "[]",
         );
 
         setCartItems(cart);
@@ -51,7 +56,7 @@ export default function Cart() {
             typeof item.price === "number"
               ? item.price
               : parseFloat(
-                  String(item.price || "0").replace(/[^0-9.-]+/g, "")
+                  String(item.price || "0").replace(/[^0-9.-]+/g, ""),
                 ) || 0;
 
           return acc + priceNum * quantity;
@@ -100,7 +105,7 @@ export default function Cart() {
 
   const handleQtyChange = (productId: string, qty: number) => {
     const updatedCart = cartItems.map((item) =>
-      item._id === productId ? { ...item, qty: Math.max(1, qty) } : item
+      item._id === productId ? { ...item, qty: Math.max(1, qty) } : item,
     );
 
     setCartItems(updatedCart);
@@ -114,10 +119,15 @@ export default function Cart() {
     e.preventDefault();
     setIsCheckingOut(true);
     setTimeout(() => {
-        router.redirect("/UI-Components/Pages/checkout");
-    }, 2000); 
+      router.push("/UI-Components/Pages/checkout");
+    }, 2000);
   };
-
+  if (!mounted)
+    return (
+      <div className="py-20 text-center font-bold">
+        <LoadingSpinner />
+      </div>
+    );
   return (
     <>
       <div className="px-[5%] lg:px-[12%] bg-(--prim-color) text-white py-5 mt-2">
@@ -139,7 +149,7 @@ export default function Cart() {
       <div className="px-[5%] lg:px-[12%] py-10">
         {cartItems.length === 0 ? (
           <div className="bg-red-50 text-red-600 text-2xl Unbounded p-6 rounded-lg border border-red-100">
-            Your Cart is empty! {" "}
+            Your Cart is empty!{" "}
             <Link href="/" className="underline font-bold">
               Continue Shopping
             </Link>
@@ -166,7 +176,7 @@ export default function Cart() {
                       typeof item.price === "number"
                         ? item.price
                         : parseFloat(
-                            String(item.price || "0").replace(/[^0-9.-]+/g, "")
+                            String(item.price || "0").replace(/[^0-9.-]+/g, ""),
                           ) || 0;
 
                     return (
@@ -302,17 +312,19 @@ export default function Cart() {
                   </div>
                 </div>
 
-                <button 
+                <button
                   onClick={handleProceedToCheckout}
                   disabled={isCheckingOut}
                   className="w-full bg-(--prim-color) text-white py-4 rounded-lg font-bold mt-8 hover:brightness-110 transition-all Unbounded text-xs tracking-widest shadow-lg shadow-(--prim-color)/20 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
                 >
                   {isCheckingOut ? (
-                     <>
-                       <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
-                       PROCESSING...
-                     </>
-                  ) : "PROCEED TO CHECKOUT"}
+                    <>
+                      <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+                      PROCESSING...
+                    </>
+                  ) : (
+                    "PROCEED TO CHECKOUT"
+                  )}
                 </button>
 
                 <div className="mt-6 flex items-center justify-center gap-4">

@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { urlFor } from "@/app/lib/sanity";
+import LoadingSpinner from "@/app/Components/LoadingSpinner";
+
 
 type SanityImage = {
   _type: "image";
@@ -33,8 +35,11 @@ type CartItem = {
 
 export default function Wishlist() {
   const [WishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+     // eslint-disable-next-line react-hooks/set-state-in-effect
+     setMounted(true);
     const loadWishlist = () => {
       try {
         const wishlist: WishlistItem[] = JSON.parse(
@@ -96,6 +101,12 @@ export default function Wishlist() {
     toast.success(`${product.name} moved to cart!`);
   };
 
+    if (!mounted)
+      return (
+        <div className="py-20 text-center font-bold">
+          <LoadingSpinner />
+        </div>
+      );
   return (
     <>
       <div className="px-[5%] lg:px-[12%] bg-(--prim-color) text-white py-5 mt-2">

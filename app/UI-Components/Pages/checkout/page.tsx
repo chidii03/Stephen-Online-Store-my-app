@@ -441,7 +441,7 @@ export default function Checkout() {
                   </span>
                 </div>
 
-                <Link href="/UI-Components/Pages/cart">
+                <Link href="/cart">
                   <div className="bg-(--prim-color) text-white border mt-8 hover:opacity-90 tracking-widest border-gray-200 rounded-md px-4 py-2 w-full flex items-center justify-center">
                     <button className="font-bold Unbounded">
                       Back to Cart
