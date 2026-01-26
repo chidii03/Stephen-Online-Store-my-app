@@ -32,6 +32,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Steve O Bizz Store",
   description: "Steve O Bizz Stationery Store",
+
+  icons: {
+    icon: "/favicon.png",
+  }
 };
 
 export default function RootLayout({
