@@ -750,7 +750,7 @@ export default function BottomNav() {
           </div>
 
           <div className="flex items-center space-x-3 shrink-0">
-            <Link href="/wishlist" className="relative">
+            <Link href="/UI-Components/Pages/wishlist" className="relative">
               <i className="bi bi-heart text-xl text-gray-700"></i>
               {wishlistCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-(--prim-color) text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">
@@ -758,7 +758,7 @@ export default function BottomNav() {
                 </span>
               )}
             </Link>
-            <Link href="/cart" className="relative">
+            <Link href="/UI-Components/Pages/cart" className="relative">
               <i className="bi bi-cart3 text-xl text-gray-700"></i>
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-(--prim-color) text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">

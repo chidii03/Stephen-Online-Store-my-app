@@ -18,15 +18,33 @@ const subCategories = [
   // Office Supplies
   { title: "Office Desk Accessories", value: "Office Desk Accessories" },
   { title: "Pens, Pencils and Markers", value: "Pens, Pencils and Markers" },
-  { title: "Office Files and Document Storage", value: "Office Files and Document Storage" },
-  { title: "Paper and Writing Materials", value: "Paper and Writing Materials" },
+  {
+    title: "Office Files and Document Storage",
+    value: "Office Files and Document Storage",
+  },
+  {
+    title: "Paper and Writing Materials",
+    value: "Paper and Writing Materials",
+  },
   { title: "General Office Consumables", value: "General Office Consumables" },
-  { title: "Calendars and Office Diaries", value: "Calendars and Office Diaries" },
+  {
+    title: "Calendars and Office Diaries",
+    value: "Calendars and Office Diaries",
+  },
 
   // School Supplies
-  { title: "Arts, Crafts and Drawing Materials", value: "Arts, Crafts and Drawing Materials" },
-  { title: "Classroom Teaching Materials", value: "Classroom Teaching Materials" },
-  { title: "Learning and Instructional Materials", value: "Learning and Instructional Materials" },
+  {
+    title: "Arts, Crafts and Drawing Materials",
+    value: "Arts, Crafts and Drawing Materials",
+  },
+  {
+    title: "Classroom Teaching Materials",
+    value: "Classroom Teaching Materials",
+  },
+  {
+    title: "Learning and Instructional Materials",
+    value: "Learning and Instructional Materials",
+  },
   { title: "Nursery and Creche Items", value: "Nursery and Creche Items" },
 
   // Ink & Toner
@@ -496,66 +514,71 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
 
-    // --- UPDATED CATEGORY SECTION ---
+    // --- CATEGORY SECTION (KEEP AS-IS) ---
     defineField({
       name: "category",
       title: "Main Category",
       type: "string",
-      options: {
-        list: categories,
-      },
+      options: { list: categories },
       validation: (Rule) => Rule.required(),
     }),
+
     defineField({
       name: "subCategory",
       title: "Sub Category",
       type: "string",
-      options: {
-        list: subCategories,
-      },
+      options: { list: subCategories },
       validation: (Rule) => Rule.required(),
     }),
+
     defineField({
       name: "subName",
       title: "Sub Name (Item Group)",
       description: "e.g., 'Biro Pens' or 'A4 Printing Paper'",
       type: "string",
       options: {
-        // We map the subNames array to objects for Sanity list
         list: subNames.map((name) => ({ title: name, value: name })),
       },
     }),
-    // --------------------------------
 
+    // ----------------------------------
+    // 🔽 RENAMED FIELDS (NO DUPLICATES)
+
+    // Secondary / Display Images (for promos, sections, etc.)
     defineField({
-      name: "image",
-      title: "Product Images",
+      name: "galleryImages",
+      title: "Gallery Images",
       type: "array",
       of: [{ type: "image" }],
     }),
+
     defineField({
-      name: "review",
-      title: "Review Rating (1-5)",
+      name: "rating",
+      title: "Rating (1–5)",
       type: "number",
     }),
+
     defineField({
-      name: "soldCurrent",
-      title: "Sold Current",
+      name: "soldCurrentCount",
+      title: "Sold (Current)",
       type: "number",
     }),
+
     defineField({
-      name: "soldTotal",
-      title: "Sold Total",
+      name: "soldTotalCount",
+      title: "Sold (Total)",
       type: "number",
     }),
+
     defineField({
-      name: "sale",
+      name: "saleLabel",
       title: "Sale Label (e.g. -50%)",
       type: "string",
     }),
+
     defineField({
-      name: "description",
-      title: "Description",
+      name: "shortDescription",
+      title: "Short Description",
       type: "text",
     }),
 
