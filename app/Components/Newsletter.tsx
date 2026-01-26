@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const Newsletter = () => {
-  const POPUP_DELAY_MS = 5000;
+  const POPUP_DELAY_MS = 10000;
   const [email, setEmail] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(false);

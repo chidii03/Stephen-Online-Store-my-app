@@ -85,7 +85,7 @@ export default function Footer() {
             <ul>
               <li className="flex gap-4.5 text-gray-500">
                 <Link
-                  href="mailto: stephenokwu@yahoo.com"
+                  href="mailto:steveobizz@yahoo.com"
                   className="text-lg flex gap-4"
                 >
                   <svg
@@ -102,7 +102,7 @@ export default function Footer() {
                       fill="#3C50E0"
                     />
                   </svg>
-                  stephenokwu@yahoo.com
+                  steveobizz@yahoo.com
                 </Link>
               </li>
             </ul>
@@ -208,7 +208,7 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="/UI-Components/Pages/cart"
+              href="/cart"
               className="mb-2 text-gray-600 text-[17px] font-normal hover:text-(--prim-color) 
         hover:ps-2 transition-all duration-300"
             >
@@ -216,7 +216,7 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="/UI-Components/Pages/wishlist"
+              href="/wishlist"
               className="mb-2 text-gray-600 text-[17px] font-normal hover:text-(--prim-color) 
         hover:ps-2 transition-all duration-300"
             >
