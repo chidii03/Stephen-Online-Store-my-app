@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import  SearchForm from "@/app/Components/SearchBar"
 
 type NavLink = {
   label: string;
@@ -535,7 +536,7 @@ const navLinks: NavLink[] = [
     href: "#",
     dropdown: [
       { label: "Shop All", href: "/Shop/ShopAll" },
-      { label: "Flash Sales", href: "/Shop/Flash-Sales" },
+      { label: "Flash Sales", href: "/Shop/FlashSales" },
     ],
   },
   {
@@ -544,16 +545,8 @@ const navLinks: NavLink[] = [
     dropdown: [
       { label: "Cart", href: "/cart" },
       { label: "Wishlist", href: "/wishlist" },
+      { label: "About Us", href: "/UI-Components/Pages/about" },
       { label: "Checkout", href: "/UI-Components/Pages/checkout" },
-      { label: "Account", href: "/UI-Components/Pages/account" },
-    ],
-  },
-  {
-    label: "Blog",
-    href: "#",
-    dropdown: [
-      { label: "Latest News", href: "/UI-Components/Blogs/blog" },
-      { label: "Tips & Guides", href: "/UI-Components/Blogs/blogDetails" },
     ],
   },
   { label: "Contact Us", href: "/UI-Components/Pages/contact" },
@@ -740,14 +733,16 @@ export default function BottomNav() {
             ></i>
           </button>
 
-          <div className="flex-1 relative">
+          {/* <div className="flex-1 relative">
             <input
               type="text"
               placeholder="Search..."
               className="w-full bg-gray-100 border-none rounded-full py-2.5 pl-5 pr-12 text-sm outline-none placeholder-gray-400 focus:ring-1 focus:ring-(--prim-color)"
             />
             <i className="bi bi-search absolute right-4 top-2.5 text-gray-400"></i>
-          </div>
+          </div> */}
+
+          <SearchForm/>
 
           <div className="flex items-center space-x-3 shrink-0">
             <Link href="/wishlist" className="relative">
@@ -861,7 +856,11 @@ export default function BottomNav() {
                     ></i>
                   </button>
                   <div
-                    className={`overflow-hidden transition-all duration-300 ${openDropdowns[cat.title] ? "max-h-250 bg-gray-50/50" : "max-h-0"}`}
+                    className={`transition-all duration-300 ease-in-out ${
+                      openDropdowns[cat.title]
+                        ? "max-h-[60vh] overflow-y-auto bg-gray-50/50" 
+                        : "max-h-0 overflow-hidden"
+                    }`}
                   >
                     <div className="p-4 space-y-6">
                       <Link

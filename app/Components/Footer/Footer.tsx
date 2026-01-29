@@ -126,7 +126,7 @@ export default function Footer() {
                 <FaInstagram className="w-6 h-6" />
               </a>
               <a
-                href="https://wa.me/08033048352"
+                href="https://wa.me/+2348033048352"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-slate-400 hover:text-[#25D366] transition-colors"
@@ -180,32 +180,16 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="/"
+              href="/Shop/FlashSales"
               className="mb-2 text-gray-600 text-[17px] font-normal hover:text-(--prim-color) 
         hover:ps-2 transition-all duration-300"
             >
-              Sitemap
-            </Link>
-
-            <Link
-              href="/"
-              className="mb-2 text-gray-600 text-[17px] font-normal hover:text-(--prim-color) 
-        hover:ps-2 transition-all duration-300"
-            >
-              Stores
+              Flash Sales
             </Link>
           </div>
 
           <div className="flex flex-col p-0 lg:ps-5">
             <h2 className="Unbounded text-xl mb-3">Customer Link</h2>
-
-            <Link
-              href="/UI-Components/Blogs/blog"
-              className="mb-2 text-gray-600 text-[17px] font-normal hover:text-(--prim-color) 
-        hover:ps-2 transition-all duration-300"
-            >
-              Blog
-            </Link>
 
             <Link
               href="/cart"
@@ -232,11 +216,11 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="/UI-Components/Pages/account"
+              href="/Shop/ShopAll"
               className="mb-2 text-gray-600 text-[17px] font-normal hover:text-(--prim-color) 
         hover:ps-2 transition-all duration-300"
             >
-              Account
+              Shop All
             </Link>
           </div>
 
@@ -260,11 +244,11 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="/"
+              href="/Help"
               className="mb-2 text-gray-600 text-[17px] font-normal hover:text-(--prim-color) 
         hover:ps-2 transition-all duration-300"
             >
-              Security
+             Help & FaQs
             </Link>
 
             <Link
@@ -273,14 +257,6 @@ export default function Footer() {
         hover:ps-2 transition-all duration-300"
             >
               Legal Notice
-            </Link>
-
-            <Link
-              href="/"
-              className="mb-2 text-gray-600 text-[17px] font-normal hover:text-(--prim-color) 
-        hover:ps-2 transition-all duration-300"
-            >
-              Store Pickup
             </Link>
           </div>
         </div>

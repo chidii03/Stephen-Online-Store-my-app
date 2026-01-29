@@ -24,13 +24,19 @@ export async function POST(req) {
       subscribers.push(email);
     }
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+ const transporter = nodemailer.createTransport({
+   host: "smtp.gmail.com",
+   port: 587,
+   secure: false, // Use false for 587
+   auth: {
+     user: process.env.EMAIL_USER,
+     pass: process.env.EMAIL_PASS,
+   },
+   tls: {
+     // This helps if your network is being extra strict
+     rejectUnauthorized: false 
+   }
+ });
 
     const mailOptions = {
       from: 'Steve Obizz Store Team <' + process.env.EMAIL_USER + '>',
@@ -61,7 +67,7 @@ export async function POST(req) {
                 With each communication, we aim to bring you closer to products that embody the highest standards of quality, craftsmanship, and innovation. Whether you are seeking practical solutions, elegant designs, or unique gifts, we’re committed to ensuring that your time with us is nothing short of exceptional.
               </p>
               <div style="margin-top: 20px; text-align: center;">
-                <a href="https://www.steveobizzstore.com" style="display: inline-block; background-color: #4b70f5; color: white; padding: 12px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">Shop Now</a>
+                <a href="https://stephen-online-store-my-app.vercel.app" style="display: inline-block; background-color: #4b70f5; color: white; padding: 12px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">Shop Now</a>
               </div>
               <footer style="margin-top: 30px; text-align: center; font-size: 14px; color: #666;">
                 <p>Warm regards,<br>The Steve-Obizz-Store Team</p>

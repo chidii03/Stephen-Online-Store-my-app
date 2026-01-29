@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   description: "Steve O Bizz Stationery Store",
 
   icons: {
-    icon: "/favicon.png",
+    icon: "/favicon.ico",
   }
 };
 

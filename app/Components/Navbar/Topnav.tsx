@@ -5,13 +5,15 @@ export default function Topnav () {
     <div className="w-full bg-(--prim-color) text-white text-sm">
       <div className="flex items-center justify-between py-3 px-[8%] lg:px-[12%] flex-col md:flex-row">
         <div className="flex space-x-4 flex-wrap" >
-         <Link href="#" className="pr-3 border-r-2 border-gray-300 hover:underline">About Us</Link>
-          <Link href="#" className="pr-3 border-r-2 border-gray-300 hover:underline">Free Delivery</Link>
-           <Link href="#" className="hover:underline">Returns Policy</Link>
+         <Link href="/UI-Components/Pages/about" className="pr-3 border-r-2 border-gray-300 hover:underline">About Us</Link>
+          <Link href="/UI-Components/Pages/checkout" className="pr-3 border-r-2 border-gray-300 hover:underline">Free Delivery</Link>
+           <Link href="/track" className="pr-3 border-gray-300 hover:underline">Track Order</Link>
+
+          
         </div>
         <div className="flex space-x-4 flex-wrap">
-            <Link href="#" className="pr-3 border-r-2 border-gray-300 hover:underline">Help Center</Link>
-              <Link href="#" className="hover:underline">My Account</Link>
+            <Link href="/Help" className="pr-3 border-r-2 border-gray-300 hover:underline">Help Center</Link>
+              <Link href="/UI-Components/Pages/contact" className="hover:underline">Returns Policy</Link>
        </div>
       </div>
     </div>

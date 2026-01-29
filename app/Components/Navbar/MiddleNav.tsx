@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import  SearchForm from "@/app/Components/SearchBar"
+
 
 interface StorageItem {
   _id: string | number; 
@@ -47,7 +49,7 @@ export default function MiddleNav() {
         </Link>
 
         {/* Desktop Search - Hidden on Mobile */}
-        <div className="hidden lg:flex flex-1 mx-10 max-w-2xl items-center">
+        {/* <div className="hidden lg:flex flex-1 mx-10 max-w-2xl items-center">
             <input
               type="text"
               placeholder="Search for office supplies..."
@@ -56,9 +58,10 @@ export default function MiddleNav() {
             <button className="bg-(--prim-color) text-white px-6 py-2.5 rounded-r-full pr-4 cursor-pointer">
               <i className="bi bi-search"></i>
             </button>
-        </div>
-
-        {/* Icons - HIDDEN on Mobile, Visible on Desktop (lg) */}
+        </div> */}
+  <SearchForm/>  
+  
+       {/* Icons - HIDDEN on Mobile, Visible on Desktop (lg) */}
         <div className="hidden lg:flex items-center space-x-8">
           <Link href="/wishlist" className="relative group">
             <i className="bi bi-heart text-2xl text-gray-600 group-hover:text-(--prim-color)"></i>

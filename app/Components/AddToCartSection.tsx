@@ -20,6 +20,7 @@ interface DeliveryEstimate {
 
 interface Product {
   _id: string;
+  
   name: string;
   price: number;
   image: SanityImage[];

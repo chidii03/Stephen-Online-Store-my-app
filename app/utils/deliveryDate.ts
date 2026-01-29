@@ -1,37 +1,38 @@
 export const getDeliveryEstimates = () => {
   const now = new Date();
-  const options = { weekday: 'short', month: 'short', day: 'numeric' } as const;
-  
-  // Cutoff time is 5:00 PM (17:00)
+  const options = { weekday: "short", month: "short", day: "numeric" } as const;
+
   const deadline = new Date(now);
   deadline.setHours(17, 0, 0, 0);
 
   const isPastCutoff = now > deadline;
-  
-  // If past 5 PM, shipping starts calculation from Tomorrow
   const baseDate = new Date(now);
-  if (isPastCutoff) {
-    baseDate.setDate(baseDate.getDate() + 1);
-    // Reset deadline for tomorrow's countdown
-    deadline.setDate(deadline.getDate() + 1);
-  }
+  if (isPastCutoff) baseDate.setDate(baseDate.getDate() + 1);
 
-  // Calculate Countdown
+  const addBusinessDays = (date: Date, days: number) => {
+    const result = new Date(date);
+    let added = 0;
+    while (added < days) {
+      result.setDate(result.getDate() + 1);
+      if (result.getDay() !== 0) {
+        // 0 is Sunday
+        added++;
+      }
+    }
+    return result;
+  };
+
+  const fastest = addBusinessDays(baseDate, 1);
+  const standard = addBusinessDays(baseDate, 4);
+
+  // Countdown logic
   const diff = deadline.getTime() - now.getTime();
-  const hours = Math.floor(diff / (1000 * 60 * 60));
-  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  const countdown = `${hours} hrs ${mins} mins`;
-
-  // Delivery Dates (Business Days Logic could be added here)
-  const fastest = new Date(baseDate);
-  fastest.setDate(baseDate.getDate() + 1); // +1 day processing
-
-  const standard = new Date(baseDate);
-  standard.setDate(baseDate.getDate() + 4); // +4 days standard
+  const hours = Math.max(0, Math.floor(diff / (1000 * 60 * 60)));
+  const mins = Math.max(0, Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)));
 
   return {
-    fastest: fastest.toLocaleDateString('en-GB', options), // en-GB puts Day before Month (12 Jan)
-    standard: standard.toLocaleDateString('en-GB', options),
-    countdown: countdown
+    fastest: fastest.toLocaleDateString("en-GB", options),
+    standard: standard.toLocaleDateString("en-GB", options),
+    countdown: `${hours} hrs ${mins} mins`,
   };
 };
