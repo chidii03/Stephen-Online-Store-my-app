@@ -74,7 +74,7 @@ const SearchBar = ({ variant = 'desktop' }: SearchBarProps) => {
       details match "*${searchTerm}*" ||
       category->title match "${searchTerm}*" ||
       tags[] match "${searchTerm}*"
-    )][0...8] {
+    )][0...10] {
       _id,
       name,
       "slug": slug,
@@ -203,11 +203,11 @@ const SearchBar = ({ variant = 'desktop' }: SearchBarProps) => {
                     <Link 
                       href={`/product/${product.slug.current}`}
                       className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors cursor-pointer
-                        ${index === activeIndex ? 'bg-gray-100 ring-l-4 ring-orange-500' : ''}`}
+                        ${index === activeIndex ? 'bg-gray-100 ring-l-4 ring-blue-600' : ''}`}
                       onClick={() => setIsOpen(false)}
                     >
                       <div className="flex items-center gap-3">
-                        <Search className={`w-4 h-4 ${index === activeIndex ? 'text-orange-500' : 'text-gray-400'}`} />
+                        <Search className={`w-4 h-4 ${index === activeIndex ? 'text-blue-600' : 'text-gray-400'}`} />
                         <div>
                           <span className="font-medium text-gray-900">{product.name}</span>
                           {product.category && (

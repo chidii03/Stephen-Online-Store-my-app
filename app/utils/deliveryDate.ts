@@ -15,15 +15,14 @@ export const getDeliveryEstimates = () => {
     while (added < days) {
       result.setDate(result.getDate() + 1);
       if (result.getDay() !== 0) {
-        // 0 is Sunday
         added++;
       }
     }
     return result;
   };
 
-  const fastest = addBusinessDays(baseDate, 1);
-  const standard = addBusinessDays(baseDate, 4);
+  const fastest = addBusinessDays(baseDate, 3);
+  const standard = addBusinessDays(baseDate, 6);
 
   // Countdown logic
   const diff = deadline.getTime() - now.getTime();

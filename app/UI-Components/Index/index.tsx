@@ -1,4 +1,3 @@
-import React from "react";
 import Hero from "./Hero/Hero";
 import Category from "./Categories/Category";
 import Banners from "./Promotion-Banner/Banners";

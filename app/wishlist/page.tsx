@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import { urlFor } from "@/app/lib/sanity";
 import LoadingSpinner from "@/app/Components/LoadingSpinner";
 
-
 type SanityImage = {
   _type: "image";
   asset: { _ref: string; _type: "reference" };
@@ -38,12 +37,12 @@ export default function Wishlist() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-     // eslint-disable-next-line react-hooks/set-state-in-effect
-     setMounted(true);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
     const loadWishlist = () => {
       try {
         const wishlist: WishlistItem[] = JSON.parse(
-          localStorage.getItem("wishlist") || "[]"
+          localStorage.getItem("wishlist") || "[]",
         );
         setWishlistItems(wishlist);
       } catch (error) {
@@ -59,7 +58,7 @@ export default function Wishlist() {
 
   const handleRemove = (productId: string, productName?: string) => {
     const updatedWishlist = WishlistItems.filter(
-      (item) => item._id !== productId
+      (item) => item._id !== productId,
     );
     setWishlistItems(updatedWishlist);
     localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
@@ -72,10 +71,10 @@ export default function Wishlist() {
 
   const handleAddToCart = (product: WishlistItem) => {
     const existingCart: CartItem[] = JSON.parse(
-      localStorage.getItem("cart") || "[]"
+      localStorage.getItem("cart") || "[]",
     );
     const itemIndex = existingCart.findIndex(
-      (item: CartItem) => item._id === product._id
+      (item: CartItem) => item._id === product._id,
     );
 
     if (itemIndex > -1) {
@@ -91,7 +90,7 @@ export default function Wishlist() {
     localStorage.setItem("cart", JSON.stringify(existingCart));
 
     const updatedWishlist = WishlistItems.filter(
-      (item) => item._id !== product._id
+      (item) => item._id !== product._id,
     );
     setWishlistItems(updatedWishlist);
     localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
@@ -101,12 +100,12 @@ export default function Wishlist() {
     toast.success(`${product.name} moved to cart!`);
   };
 
-    if (!mounted)
-      return (
-        <div className="py-20 text-center font-bold">
-          <LoadingSpinner />
-        </div>
-      );
+  if (!mounted)
+    return (
+      <div className="py-20 text-center font-bold">
+        <LoadingSpinner />
+      </div>
+    );
   return (
     <>
       <div className="px-[5%] lg:px-[12%] bg-(--prim-color) text-white py-5 mt-2">
@@ -156,7 +155,7 @@ export default function Wishlist() {
                       typeof item.price === "number"
                         ? item.price
                         : parseFloat(
-                            String(item.price || "0").replace(/[^0-9.-]+/g, "")
+                            String(item.price || "0").replace(/[^0-9.-]+/g, ""),
                           ) || 0;
 
                     return (
