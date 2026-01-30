@@ -1,4 +1,4 @@
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://stephen-online-store-app-backend.onrender.com";
 
 // Types
 export interface OrderData {
@@ -44,6 +44,7 @@ export const subscribeNewsletter = async (email: string) => {
   });
   return res.json();
 };
+
 
 // Admin API
 export const adminLogin = async (password: string) => {

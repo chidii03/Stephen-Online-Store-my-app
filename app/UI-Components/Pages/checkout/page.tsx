@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { API_URL } from "@/app/lib/api"; 
+import { API_URL } from "@/app/lib/api";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "react-toastify";
@@ -156,27 +156,27 @@ export default function Checkout() {
     };
 
     try {
-      const res = await fetch(`${API_URL}/api/orders/create`,  {
+      // UPDATED: Use the API_URL + proper route
+      const res = await fetch(`${API_URL}/api/orders/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
       });
 
       const data = await res.json();
-      if (res.ok) {
+      if (res.ok && data.checkoutUrl) {
         toast.success("Processing Payment...");
-        localStorage.setItem("payment_pending", "true");
         window.location.href = data.checkoutUrl;
       } else {
         toast.error(data.error || "Order failed");
       }
-    } catch {
-      toast.error("Server connection error");
+    } catch (err) {
+      console.error(err);
+      toast.error("Could not connect to server. Please check your internet.");
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
