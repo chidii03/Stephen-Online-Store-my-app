@@ -105,6 +105,7 @@ const subNames = [
 
   // Pens, Pencils and Markers
   "Biro Pens",
+  "Art Coloring Pens",
   "Gel Pens and Rollerball Pens",
   "Office Highlighters",
   "HB Pencils and Erasers",
@@ -148,14 +149,6 @@ const subNames = [
   "Office Diaries",
   "Academic Planners",
   "Whiteboards and Notice Boards",
-
-  // School Bags and Lunch Items
-  "Primary School Backpacks",
-  "Laptop School Bags",
-  "Lunch Bags and Lunch Boxes",
-  "Plastic Water Bottles",
-  "Drawstring School Bags",
-  "Side and Shoulder Bags",
 
   // Arts, Crafts and Drawing Materials
   "Crayons and Colour Pencils",
@@ -515,12 +508,13 @@ export default defineType({
     }),
 
     // --- CATEGORY SECTION (KEEP AS-IS) ---
-    // defineField({
-    //   name: "category",
-    //   title: "Main Category",
-    //   type: "string",
-    //   options: { list: categories },
-    // }),
+    defineField({
+      name: "category",
+      title: "Main Category",
+      type: "string",
+      options: { list: categories },
+    }),
+
 
     defineField({
       name: "subCategory",
@@ -537,47 +531,6 @@ export default defineType({
       options: {
         list: subNames.map((name) => ({ title: name, value: name })),
       },
-    }),
-
-    // ----------------------------------
-    // 🔽 RENAMED FIELDS (NO DUPLICATES)
-
-    // Secondary / Display Images (for promos, sections, etc.)
-    defineField({
-      name: "galleryImages",
-      title: "Gallery Images",
-      type: "array",
-      of: [{ type: "image" }],
-    }),
-
-    defineField({
-      name: "rating",
-      title: "Rating (1–5)",
-      type: "number",
-    }),
-
-    defineField({
-      name: "soldCurrentCount",
-      title: "Sold (Current)",
-      type: "number",
-    }),
-
-    defineField({
-      name: "soldTotalCount",
-      title: "Sold (Total)",
-      type: "number",
-    }),
-
-    defineField({
-      name: "saleLabel",
-      title: "Sale Label (e.g. -50%)",
-      type: "string",
-    }),
-
-    defineField({
-      name: "shortDescription",
-      title: "Short Description",
-      type: "text",
     }),
 
     // STOCK STATUS

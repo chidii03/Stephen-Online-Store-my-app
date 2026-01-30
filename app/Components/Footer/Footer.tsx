@@ -180,7 +180,7 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="/Shop/FlashSales"
+              href="/FlashSales"
               className="mb-2 text-gray-600 text-[17px] font-normal hover:text-(--prim-color) 
         hover:ps-2 transition-all duration-300"
             >
@@ -216,7 +216,7 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="/Shop/ShopAll"
+              href="/ShopAll"
               className="mb-2 text-gray-600 text-[17px] font-normal hover:text-(--prim-color) 
         hover:ps-2 transition-all duration-300"
             >

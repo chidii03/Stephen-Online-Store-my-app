@@ -155,8 +155,8 @@ const SearchBar = ({ variant = 'desktop' }: SearchBarProps) => {
          className={`flex items-center bg-white border-2 transition-all rounded-2xl overflow-hidden ${isOpen ? 'border-blue-500 shadow-lg' : 'border-gray-200'}`}>
           <div className={`relative w-full flex items-center overflow-hidden
             ${variant === 'desktop' 
-              ? `bg-white border-2 ${isOpen ? 'border-blue-500 rounded-2xl rounded-b-none' : 'border-gray-300 rounded-2xl'}` 
-              : 'bg-gray-100 rounded-2xl border border-transparent focus-within:bg-white focus-within:border-blue-500'
+              ? `bg-white ${isOpen ? 'border-blue-500 rounded-2xl rounded-b-none' : 'border-gray-300 rounded-2xl'}` 
+              : 'bg-gray-100 border-2 rounded-2xl border-transparent focus-within:bg-white focus-within:border-blue-500'
             }
           `}>
             
@@ -233,7 +233,7 @@ const SearchBar = ({ variant = 'desktop' }: SearchBarProps) => {
           )}
 
           {isOpen && query.length > 2 && suggestions.length === 0 && !isLoading && (
-            <div className={`absolute left-0 right-0 top-full bg-white shadow-xl p-4 text-center
+            <div className={`absolute left-0 right-0 top-full mt-2 rounded-2xl bg-white shadow-xl p-4 text-center
                ${variant === 'desktop' ? 'rounded-b-2xl' : 'rounded-xl mt-2'}
             `}>
               <p className="text-gray-500">No products found for &quot;{query}&quot;</p>

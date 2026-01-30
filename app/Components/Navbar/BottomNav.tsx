@@ -535,8 +535,8 @@ const navLinks: NavLink[] = [
     label: "Shop",
     href: "#",
     dropdown: [
-      { label: "Shop All", href: "/Shop/ShopAll" },
-      { label: "Flash Sales", href: "/Shop/FlashSales" },
+      { label: "Shop All", href: "/ShopAll" },
+      { label: "Flash Sales", href: "/FlashSales" },
     ],
   },
   {

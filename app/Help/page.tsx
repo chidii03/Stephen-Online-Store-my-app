@@ -48,7 +48,7 @@ export default function HelpPage() {
       id: 2,
       question: "What payment methods do you accept?",
       answer:
-        "We accept multiple payment methods: Bank transfers, credit/debit cards (Visa, MasterCard), FlutterWave, Paystack, and cash on delivery for orders below ₦100,000. Corporate clients can request invoice-based payments.",
+        "We accept multiple payment methods: Bank transfers, credit/debit cards (Visa, MasterCard), Paystack, and cash on delivery for orders below ₦100,000. Corporate clients can request invoice-based payments.",
       category: "ordering",
       popular: true,
     },
@@ -56,7 +56,7 @@ export default function HelpPage() {
       id: 3,
       question: "Do you offer bulk discounts for corporate orders?",
       answer:
-        "Yes! We offer special pricing for corporate and bulk orders. For orders above ₦500,000, you get up to 15% discount. Contact our corporate sales team at corporate@steveobizzstore.com for customized quotes.",
+        "Yes! We offer special pricing for corporate and bulk orders. For orders above ₦50,000, you get up to 2% discount. Contact our corporate sales team at corporate@steveobizz@yahoo.com for customized quotes.",
       category: "ordering",
     },
     {
@@ -71,7 +71,7 @@ export default function HelpPage() {
       id: 5,
       question: "How do I track my order?",
       answer:
-        'Once your order is shipped, you will receive a tracking number via SMS and email. You can track your order status on our website under "My Orders" or contact our customer service for real-time updates.',
+        'Once your order is shipped, you will receive a tracking number via SMS and email. You can track your order status on our website under "Track Orders Page" or contact our customer service for real-time updates.',
       category: "shipping",
     },
     {
@@ -93,15 +93,15 @@ export default function HelpPage() {
       id: 8,
       question: "Can I customize my order?",
       answer:
-        "Yes, we offer customization services for corporate branding on items like notebooks, pens, and office supplies. Minimum order quantities apply. Contact our customization team for quotes and samples.",
+        "Yes, we offer customization services for corporate branding on items like notebooks, pens, and office supplies. Minimum order quantities apply. Contact our customization team on What's App +234 803 304 8352 for quotes and samples.",
       category: "products",
     },
     {
       id: 9,
       question: "What are your business hours?",
       answer:
-        "Our store is open Monday to Saturday from 8:00 AM to 8:00 PM, and Sundays from 10:00 AM to 6:00 PM. Online orders can be placed 24/7 through our website.",
-      category: "products", // Changed from account to products to match valid category
+        "Our store is open Monday, Tuesday, Wednesday, Friday from 7:00 AM to 7:00 PM, and Saturdays, Thurdays from 10:00 AM to 7:00 PM. Online orders can be placed 24/7 through our website.",
+      category: "products", 
     },
     {
       id: 10,
