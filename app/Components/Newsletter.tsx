@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { API_URL } from "@/app/lib/api";
 
 const Newsletter = () => {
   const POPUP_DELAY_MS = 10000;
@@ -45,7 +46,7 @@ const Newsletter = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/newsletter/subscribe", {
+      const res = await fetch(`${API_URL}/api/newsletter/subscribe`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
