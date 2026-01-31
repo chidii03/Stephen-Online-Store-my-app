@@ -85,7 +85,7 @@ const categories = [
         ],
       },
       {
-        name: "Calendars and Office Diaries",
+        name: "Calendars,Diaries and Office White Board",
         items: [
           "Wall Calendars",
           "Desk Calendars",

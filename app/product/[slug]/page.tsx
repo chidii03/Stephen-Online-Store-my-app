@@ -102,7 +102,7 @@ export default async function ProductPage({ params }: Props) {
                   <i key={i} className={`bi ${i < 4 ? 'bi-star-fill' : 'bi-star-half'}`}></i>
                 ))}
               </div>
-              <span className="text-blue-600 font-bold hover:underline cursor-pointer">
+              <span className="text-blue-600 font-bold">
                 {product.review || 128} Verified Ratings
               </span>
             </div>

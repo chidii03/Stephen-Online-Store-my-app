@@ -26,10 +26,11 @@ const subCategories = [
     title: "Paper and Writing Materials",
     value: "Paper and Writing Materials",
   },
-  { title: "General Office Consumables", value: "General Office Consumables" },
+  { title: "General Office Consumables", 
+   value: "General Office Consumables" },
   {
-    title: "Calendars and Office Diaries",
-    value: "Calendars and Office Diaries",
+    title: "Calendars, Diaries and Office White Board",
+    value: "Calendars, Diaries and Office White Board",
   },
 
   // School Supplies
@@ -45,7 +46,8 @@ const subCategories = [
     title: "Learning and Instructional Materials",
     value: "Learning and Instructional Materials",
   },
-  { title: "Nursery and Creche Items", value: "Nursery and Creche Items" },
+  { title: "Nursery and Creche Items",
+    value: "Nursery and Creche Items" },
 
   // Ink & Toner
   { title: "Printer Ink Cartridges", value: "Printer Ink Cartridges" },
@@ -90,6 +92,8 @@ const subCategories = [
   // Shop-Greener-Products
   { title: "Eco Office Supplies", value: "Eco Office Supplies" },
   { title: "Sustainable Living", value: "Sustainable Living" },
+  { title: "Indoor Recreation", value: "Indoor Recreation" },
+
 ];
 
 const subNames = [
@@ -143,7 +147,7 @@ const subNames = [
   "First Aid Boxes",
   "Office Scissors",
 
-  // Calendars and Office Diaries
+  //Calendars, Diaries and Office White Board"
   "Wall Calendars",
   "Desk Calendars",
   "Office Diaries",
@@ -166,6 +170,7 @@ const subNames = [
   "Board Markers",
   "Board Borders and Trimmers",
   "Teacher Storage Organisers",
+  "Classroom Teaching Tables and Chairs",
 
   // Learning and Instructional Materials
   "Scientific Calculators",
@@ -409,6 +414,10 @@ const subNames = [
   "Organic Tea",
   "Recycled Tissue",
   "Solar Power Banks",
+
+  //Classic Games
+  "Chess",
+  "Jenga"
 ];
 
 export default defineType({

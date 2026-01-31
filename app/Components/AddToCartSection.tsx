@@ -88,9 +88,8 @@ const handleAddToCart = (isBuyNow = false) => {
 
   localStorage.setItem("cart", JSON.stringify(existingCart));
 
-  // This is crucial: it notifies other components (like your Navbar) to update
   window.dispatchEvent(new Event("storageUpdate"));
-  window.dispatchEvent(new Event("storage")); // Dispatching both for compatibility
+  window.dispatchEvent(new Event("storage")); 
 
   if (isBuyNow) {
     router.push("/UI-Components/Pages/checkout");
