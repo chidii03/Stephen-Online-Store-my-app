@@ -193,13 +193,13 @@ export default function Checkout() {
         </div>
       </div>
 
-      <div className="px-[5%] lg:px-[12%] py-10">
-        <div className="grid gap-8 lg:grid-cols-12 items-start">
+      <div className="px-[5%] lg:px-[12%] py-5">
+        <div className="grid gap-8 lg:grid-cols-12 items-center justify-center">
           {/* LEFT SIDE: Form */}
           <div className="lg:col-span-7 space-y-6">
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
               {/* Form Inputs remain same as your code */}
-              <h5 className="mb-4 Unbounded text-xl font-bold text-gray-800 border-b pb-2">
+              <h5 className="mb-4 Unbounded text-xl font-bold text-gray-800 border-b pb-2 whitespace-nowrap">
                 Contact Information
               </h5>
               <input
@@ -304,7 +304,7 @@ export default function Checkout() {
           </div>
 
           {/* RIGHT SIDE: Order Summary */}
-          <div className="lg:col-span-5 sticky top-6">
+          <div className="lg:col-span-5 sticky top-6 pt-10">
             <div className="bg-white border border-gray-200 p-6 rounded-2xl shadow-md">
               <h5 className="font-bold mb-4 flex items-center gap-2 Unbounded text-lg">
                 <i className="ri-shopping-cart-2-line text-(--prim-color)"></i>{" "}
@@ -360,7 +360,7 @@ export default function Checkout() {
                   Discount Code
                 </div>
                 {!isDiscountApplied ? (
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2 ">
                     <input
                       value={discountCode}
                       onChange={(e) =>
@@ -371,7 +371,7 @@ export default function Checkout() {
                     />
                     <button
                       onClick={applyObizzDiscount}
-                      className="bg-(--prim-color) text-white px-6 rounded-lg text-sm font-bold hover:bg-blue-600 transition"
+                      className="bg-(--prim-color) Unbounded text-white w-full py-2 rounded-lg text-sm font-bold hover:opacity-90 tracking-widest"
                     >
                       Apply
                     </button>

@@ -164,7 +164,7 @@ export default function Wishlist() {
                         className="hover:bg-gray-50 transition-colors"
                       >
                         <td className="py-5 px-6 flex items-center gap-4">
-                          <Link href={`/product/${item.slug.current}`}>
+                          {/* <Link href={`/product/${item.slug.current}`}> */}
                             <div className="relative w-24 h-24 md:w-32 md:h-32 shrink-0 bg-gray-50 rounded-lg border border-gray-100 overflow-hidden">
                               {item.image?.[0] ? (
                                 <Image
@@ -179,7 +179,7 @@ export default function Wishlist() {
                                 </div>
                               )}
                             </div>
-                          </Link>
+                          {/* </Link> */}
                           <div>
                             <p className="font-bold text-gray-800 text-sm md:text-base Unbounded line-clamp-2">
                               {item.name}

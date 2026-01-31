@@ -35,38 +35,40 @@ const Newsletter = () => {
       .match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
   };
 
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSubscribe = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    if (!validateEmail(email)) {
-      toast.error("Please enter a valid email address");
-      return;
+  if (!validateEmail(email)) {
+    toast.error("Please enter a valid email address");
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    // We call the Render backend URL here
+    const res = await fetch(`${API_URL}/api/newsletter/subscribe`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      // Backend now sends welcome email even if already subscribed
+      toast.success(data.message || "Welcome to the family! Check your inbox.");
+      setEmail("");
+      setShowPopup(false);
+    } else {
+      toast.error(data.error || "Subscription failed");
     }
-
-    setLoading(true);
-
-    try {
-      const res = await fetch(`${API_URL}/api/newsletter/subscribe`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        toast.success("Welcome to the family! Check your inbox.");
-        setEmail("");
-        setShowPopup(false);
-      } else {
-        toast.error(data.error || "Subscription failed");
-      }
-    } catch {
-      toast.error("Network error. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  } catch {
+    toast.error("Network error. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <section className="overflow-hidden">

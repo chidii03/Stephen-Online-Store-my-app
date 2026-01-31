@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import  SearchForm from "@/app/Components/SearchBar"
+import SearchBar from "@/app/Components/SearchBar";
 
 type NavLink = {
   label: string;
@@ -733,16 +733,7 @@ export default function BottomNav() {
             ></i>
           </button>
 
-          {/* <div className="flex-1 relative">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full bg-gray-100 border-none rounded-full py-2.5 pl-5 pr-12 text-sm outline-none placeholder-gray-400 focus:ring-1 focus:ring-(--prim-color)"
-            />
-            <i className="bi bi-search absolute right-4 top-2.5 text-gray-400"></i>
-          </div> */}
-
-          <SearchForm/>
+          <SearchBar variant="mobile" />
 
           <div className="flex items-center space-x-3 shrink-0">
             <Link href="/wishlist" className="relative">
@@ -858,7 +849,7 @@ export default function BottomNav() {
                   <div
                     className={`transition-all duration-300 ease-in-out ${
                       openDropdowns[cat.title]
-                        ? "max-h-[60vh] overflow-y-auto bg-gray-50/50" 
+                        ? "max-h-[60vh] overflow-y-auto bg-gray-50/50"
                         : "max-h-0 overflow-hidden"
                     }`}
                   >

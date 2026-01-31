@@ -98,7 +98,6 @@ export default function BestSales() {
 
   return (
     <section className="py-8 md:py-12 px-[5%] lg:px-[8%] bg-white relative">
-      {/* --- SECTION HEADER --- */}
    {/* --- SECTION HEADER --- */}
 <div className="flex items-center gap-6 mb-10">
   <div className="flex items-center gap-3">

@@ -10,6 +10,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { API_URL } from "@/app/lib/api";
 import Link from "next/link";
 
 export default function ContactPage() {
@@ -24,35 +25,41 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  
+  try {
+    // Point this to your Render Backend
+    const response = await fetch(`${API_URL}/api/contact`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      toast.success("Message sent successfully!");
+      setIsSubmitted(true);
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        company: "",
+        subject: "General Inquiry",
+        message: "",
       });
-      if (response.ok) {
-        toast.success("Message sent successfully!");
-        setIsSubmitted(true);
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          company: "",
-          subject: "General Inquiry",
-          message: "",
-        });
-      } else {
-        throw new Error("Failed");
-      }
-    } catch {
-      toast.error("Failed to send message.");
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      toast.error(data.error || "Failed to send message.");
     }
-  };
+  } catch {
+    toast.error("Network error. Please check your connection.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const handleChange = (
     e: React.ChangeEvent<

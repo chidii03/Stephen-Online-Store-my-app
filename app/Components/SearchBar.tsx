@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { Search, X, Loader2, ChevronRight } from 'lucide-react';
-import { client } from '@/app/lib/sanity'; 
+import { Search, Loader2, ChevronRight } from 'lucide-react';
+import { client } from '@/app/lib/sanity';
 import Link from 'next/link';
 
 // --- Types ---
@@ -34,25 +34,42 @@ const SearchBar = ({ variant = 'desktop' }: SearchBarProps) => {
   const pathname = usePathname();
   const searchRef = useRef<HTMLDivElement>(null);
 
-  // Close search when route changes
   useEffect(() => {
     setIsOpen(false);
     setActiveIndex(-1);
   }, [pathname]);
 
-  // Handle Click Outside to close
+    useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.classList.add('search-active'); 
+    } else {
+      document.body.style.overflow = 'unset';
+      document.body.classList.remove('search-active');
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.body.classList.remove('search-active');
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    setIsOpen(false);
+    setActiveIndex(-1);
+  }, [pathname]);
+
+  // Handle Click Outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsOpen(false);
-        setActiveIndex(-1);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // -- Typed Debounce Function --
+  // -- Debounce --
   const debounce = useCallback((func: (...args: unknown[]) => void, delay: number) => {
     let timeoutId: NodeJS.Timeout;
     return (...args: unknown[]) => {
@@ -70,20 +87,20 @@ const SearchBar = ({ variant = 'desktop' }: SearchBarProps) => {
     setIsLoading(true);
     
     const groqQuery = `*[_type == "product" && (
-      name match "${searchTerm}*" || 
+      name match "*${searchTerm}*" || 
       details match "*${searchTerm}*" ||
-      category->title match "${searchTerm}*" ||
-      tags[] match "${searchTerm}*"
-    )][0...10] {
+      category->title match "*${searchTerm}*" ||
+      tags[] match "*${searchTerm}*"
+    )][0...8] {
       _id,
       name,
       "slug": slug,
-      "category": category->title,
-      image
+      "category": category->title
     }`;
 
     try {
-      const results = await client.fetch(groqQuery);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const results: any = await client.fetch(groqQuery);
       setSuggestions(results);
     } catch (error) {
       console.error("Search Error:", error);
@@ -92,13 +109,12 @@ const SearchBar = ({ variant = 'desktop' }: SearchBarProps) => {
     }
   }, []);
 
-  // Use a ref to keep the debounced function stable across renders
   const debouncedSearch = useRef(debounce((val) => fetchSuggestions(val as string), 300)).current;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setQuery(val);
-    setActiveIndex(-1); // Reset selection on typing
+    setActiveIndex(-1);
     if (val.length > 0) {
       setIsOpen(true);
       debouncedSearch(val);
@@ -111,132 +127,109 @@ const SearchBar = ({ variant = 'desktop' }: SearchBarProps) => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
-      router.push(`/search?q=${encodeURIComponent(query)}`);
-      setIsOpen(false);
-    }
-  };
-
-  // -- Keyboard Navigation --
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!isOpen || suggestions.length === 0) return;
-
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setActiveIndex((prev) => (prev < suggestions.length - 1 ? prev + 1 : 0));
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setActiveIndex((prev) => (prev > 0 ? prev - 1 : suggestions.length - 1));
-    } else if (e.key === 'Enter') {
-      if (activeIndex >= 0 && activeIndex < suggestions.length) {
-        e.preventDefault();
-        // Go directly to the selected product
-        router.push(`/product/${suggestions[activeIndex].slug.current}`);
-        setIsOpen(false);
-      }
-      // If no suggestion selected, standard form submit handles it
-    } else if (e.key === 'Escape') {
+      router.push(`/search?q=${encodeURIComponent(query.trim())}`);
       setIsOpen(false);
     }
   };
 
   return (
     <>
-      {/* 1. The "Ash" Overlay */}
+      {/* Overlay for Focus (Optional) */}
       {isOpen && (
-        <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-[2px] z-40 transition-opacity duration-300" />
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300" />
       )}
 
-      {/* 2. The Search Container */}
       <div 
-        ref={searchRef} 
-        className={`relative z-50 ${variant === 'desktop' ? 'flex-1 mx-10 max-w-2xl' : 'flex-1'}`}
+       ref={searchRef} 
+        // Added sticky and high z-index
+        className={`sticky top-0 z-50 w-full ${variant === 'mobile' ? 'py-2' : ''}`}
       >
-        <form onSubmit={handleSearchSubmit}
-         className={`flex items-center bg-white border-2 transition-all rounded-2xl overflow-hidden ${isOpen ? 'border-blue-500 shadow-lg' : 'border-gray-200'}`}>
-          <div className={`relative w-full flex items-center overflow-hidden
-            ${variant === 'desktop' 
-              ? `bg-white ${isOpen ? 'border-blue-500 rounded-2xl rounded-b-none' : 'border-gray-300 rounded-2xl'}` 
-              : 'bg-gray-100 border-2 rounded-2xl border-transparent focus-within:bg-white focus-within:border-blue-500'
-            }
-          `}>
-            
-            <div className="pl-4 text-gray-500">
-               {isLoading ? <Loader2 className="animate-spin w-5 h-5 text-blue-500" /> : <Search className="w-5 h-5" />}
+        <form onSubmit={handleSearchSubmit} className="w-full relative">
+          
+          {/* --- DESKTOP INPUT --- */}
+          {variant === 'desktop' && (
+             <div className={`hidden md:flex relative w-full items-center bg-white border-2 rounded-2xl overflow-hidden transition-colors
+               ${isOpen ? 'border-(--prim-color)  rounded-2xl' : 'border-gray-200'}
+             `}>
+                <div className="pl-4 text-gray-400">
+                  {isLoading ? <Loader2 className="animate-spin w-5 h-5 text-(--prim-color)" /> : <Search className="w-5 h-5" />}
+                </div>
+                <input
+                  type="text"
+                  value={query}
+                  onChange={handleChange}
+                  onFocus={() => setIsOpen(true)}
+                  placeholder="Search for products..."
+                  className="w-full py-3 px-3 text-gray-900 placeholder-gray-500 outline-none bg-transparent"
+                  autoComplete="off"
+                />
+                 <button type="submit" className="bg-(--prim-color) hover:opacity-90 text-white px-8 py-3 font-bold transition-all">
+                  Search
+                </button>
+             </div>
+          )}
+
+          {/* --- MOBILE/IPAD UI (Strictly using your requested styles) --- */}
+          {variant === 'mobile' && (
+            <div className="relative w-full">
+              <input
+                type="text"
+                value={query}
+                onChange={handleChange}
+                onFocus={() => setIsOpen(true)}
+                placeholder="Search..."
+                className="w-full bg-gray-100 border-none rounded-full py-2.5 pl-5 pr-12 text-sm outline-none placeholder-gray-400 focus:ring-1 focus:ring-(--prim-color)"
+              />
+              <div className="absolute right-4 top-2.5 text-gray-400 pointer-events-none">
+                {isLoading ? (
+                  <Loader2 className="animate-spin w-5 h-5 text-(--prim-color)" />
+                ) : (
+                  // Using Lucide Search icon instead of bootstrap class to be consistent
+                  <Search className="w-5 h-5" />
+                )}
+              </div>
             </div>
+          )}
 
-            <input
-              type="text"
-              value={query}
-              onChange={handleChange}
-              onKeyDown={handleKeyDown}
-              onFocus={() => query.length > 0 && setIsOpen(true)}
-              placeholder={variant === 'desktop' ? "Search for office supplies..." : "Search..."}
-              className={`w-full py-3 px-3 text-gray-900 placeholder-gray-500 outline-none bg-transparent text-base`}
-              autoComplete="off"
-            />
-
-            {query && (
-              <button 
-                type="button" 
-                onClick={() => { setQuery(''); setIsOpen(false); }}
-                className="pr-4 text-gray-400 hover:text-gray-600 cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            )}
-
-            {variant === 'desktop' && (
-              <button type="submit" className="hidden md:flex bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 font-medium transition-colors cursor-pointer">
-                Search
-              </button>
-            )}
-          </div>
-
-          {/* 3. Suggestions Dropdown */}
+          {/* --- SUGGESTIONS DROPDOWN --- */}
           {isOpen && suggestions.length > 0 && (
-            <div className={`absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border-t-0 border-x border-b border-gray-200 overflow-hidden
-              ${variant === 'desktop' ? 'rounded-b-2xl' : 'rounded-xl mt-2'}
+            <div className={`absolute left-0 right-0 bg-white shadow-xl z-50 overflow-hidden  mt-2 rounded-2xl border-t border-gray-100
+               ${variant === 'desktop' ? 'rounded-b-2xl top-full' : 'rounded-2xl top-[110%] w-full'}
             `}>
-              <ul>
+              <ul className="max-h-[60vh] overflow-y-auto custom-scrollbar">
                 {suggestions.map((product, index) => (
                   <li key={product._id} className="border-b border-gray-50 last:border-none">
                     <Link 
                       href={`/product/${product.slug.current}`}
-                      className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors cursor-pointer
-                        ${index === activeIndex ? 'bg-gray-100 ring-l-4 ring-blue-600' : ''}`}
+                      className={`flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors
+                        ${index === activeIndex ? 'bg-gray-100' : ''}`}
                       onClick={() => setIsOpen(false)}
                     >
-                      <div className="flex items-center gap-3">
-                        <Search className={`w-4 h-4 ${index === activeIndex ? 'text-blue-600' : 'text-gray-400'}`} />
-                        <div>
-                          <span className="font-medium text-gray-900">{product.name}</span>
+                      <div className="flex items-center gap-3 overflow-hidden">
+                        <Search className="w-4 h-4 text-gray-400 shrink-0" />
+                        <div className="flex flex-col">
+                          <span className="font-medium text-gray-900 truncate text-sm sm:text-base">
+                            {product.name}
+                          </span>
                           {product.category && (
-                            <span className="text-xs text-gray-500 ml-2 hidden sm:inline-block">in {product.category}</span>
+                             <span className="text-xs text-(--prim-color)">in {product.category}</span>
                           )}
                         </div>
                       </div>
-                      <ChevronRight className="w-4 h-4 text-gray-300" />
+                      <ChevronRight className="w-4 h-4 text-gray-300 shrink-0" />
                     </Link>
                   </li>
                 ))}
-                
-                <li className="bg-gray-50">
-                   <button 
-                    onClick={handleSearchSubmit} 
-                    className="w-full text-left px-4 py-3 text-sm text-blue-600 hover:underline font-semibold cursor-pointer"
-                   >
-                     See all results for &quot;{query}&quot;
-                   </button>
-                </li>
               </ul>
-            </div>
-          )}
-
-          {isOpen && query.length > 2 && suggestions.length === 0 && !isLoading && (
-            <div className={`absolute left-0 right-0 top-full mt-2 rounded-2xl bg-white shadow-xl p-4 text-center
-               ${variant === 'desktop' ? 'rounded-b-2xl' : 'rounded-xl mt-2'}
-            `}>
-              <p className="text-gray-500">No products found for &quot;{query}&quot;</p>
+              
+              <div className="bg-gray-50 p-2">
+                 <button 
+                  onClick={handleSearchSubmit} 
+                  className="w-full text-center py-2 text-sm text-(--prim-color) font-bold hover:underline"
+                 >
+                   See all results for &quot;{query}&quot;
+                 </button>
+              </div>
             </div>
           )}
         </form>

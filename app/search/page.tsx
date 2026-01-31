@@ -1,55 +1,80 @@
-import React from "react";
 import { client, urlFor } from "@/app/lib/sanity";
 import Link from "next/link";
 import Image from "next/image";
-import { Star, Truck, ShoppingCart, AlertCircle } from "lucide-react";
+import { Star, Truck, AlertCircle, Filter, ArrowUpDown } from "lucide-react";
+import AddToCartButton from "@/app/Components/AddToCartButton";
 
 export const dynamic = "force-dynamic";
 
-interface SearchPageProps {
-  searchParams: {
-    q?: string;
-  };
-}
-
-// --- Types ---
+// --- TYPES ---
 type SanityImage = {
   _type: "image";
   asset: { _ref: string; _type: "reference" };
 };
 
-// Interface to avoid 'any'
-interface Product {
+// Exporting this so other components can use it if needed
+export type Product = {
   _id: string;
   name: string;
-  slug: string;
   price: number;
-  oldPrice?: number; // Optional, might be null
   lessprice?: number;
-  details: string;
+  oldPrice?: number; // Added this as it was missing in type but used in code
+  slug: { current: string };
   image: SanityImage[];
-  category: string;
-  review?: number; // Replaces rating
-}
-
-const getStableRandom = (seed: string, min: number, max: number) => {
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) {
-    hash = seed.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return (Math.abs(hash) % (max - min + 1)) + min;
+  sale: string;
+  soldCurrent: number;
+  soldTotal: number;
+  BestSales?: number;
+  review?: number;
+  details?: string;
+  category?: string;
+  tags?: string[];
 };
 
-// Helper: Get Stable Date
-const getDeliveryDate = (id: string) => {
-  const dates = ["Thu, Feb 5", "Fri, Feb 6", "Mon, Feb 9", "Tue, Feb 10"];
-  const index = getStableRandom(id, 0, dates.length - 1);
-  return dates[index];
+interface SearchPageProps {
+  searchParams: Promise<{
+    q?: string;
+    sort?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    rating?: string;
+  }>;
+}
+
+// Fixed "any" in props
+interface SortOptionProps {
+  label: string;
+  value: string;
+  currentSort: string;
+  query: string;
+}
+
+const SortOption = ({ label, value, currentSort, query }: SortOptionProps) => {
+  const active = currentSort === value;
+
+  return (
+    <Link
+      href={`/search?q=${query}&sort=${value}`}
+      className={`block px-4 py-2 text-sm ${
+        active
+          ? "bg-(--prim-color) text-white"
+          : "text-gray-700 hover:bg-gray-100"
+      }`}
+    >
+      {label}
+    </Link>
+  );
 };
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
-  const awaitedSearchParams = await searchParams; // Awaiting searchParams in Next.js 15+ is best practice
-  const query = awaitedSearchParams.q || "";
+  const awaitedParams = await searchParams;
+  const query = awaitedParams.q || "";
+  const sort = awaitedParams.sort || "newest";
+  const minPrice = awaitedParams.minPrice ? Number(awaitedParams.minPrice) : 0;
+  const maxPrice = awaitedParams.maxPrice
+    ? Number(awaitedParams.maxPrice)
+    : 10000000;
+  const minRating = awaitedParams.rating ? Number(awaitedParams.rating) : 0;
 
   if (!query) {
     return (
@@ -62,58 +87,105 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     );
   }
 
+  // --- Construct GROQ Query ---
+  let orderClause = "| order(_createdAt desc)";
+  if (sort === "price_asc") orderClause = "| order(price asc)";
+  if (sort === "price_desc") orderClause = "| order(price desc)";
+  if (sort === "rating") orderClause = "| order(review desc)";
+
   const sanityQuery = `*[_type == "product" && (
-    name match "${query}*" || 
+    name match "*${query}*" || 
     details match "*${query}*" ||
     category->title match "*${query}*" ||
-    tags[] match "${query}*"
-  )] {
+    tags[] match "*${query}*"
+  ) && price >= ${minPrice} && price <= ${maxPrice} && review >= ${minRating}] ${orderClause} {
     _id,
     name,
     "slug": slug.current,
     price,
     oldPrice, 
     details,
-    image[0],
+    image, // Changed to fetch all images to match type
     "category": category->title,
-    review 
+    review
   }`;
 
   const products: Product[] = await client.fetch(sanityQuery);
 
   return (
-    <div className="bg-white min-h-screen pb-20 font-sans">
-      {/* Search Header */}
-      <div className="border-b border-gray-200 shadow-sm bg-white sticky top-0 z-30 px-4 py-3">
-        <div className="max-w-7xl mx-auto">
-          <p className="text-sm text-gray-600">
-            {products.length > 0 ? (
-              <>
-                Check out these results for{" "}
-                <span className="text-orange-600 font-bold">
-                  &quot;{query}&quot;
-                </span>
-              </>
-            ) : (
-              <>No results found for &quot;{query}&quot;</>
-            )}
+    <div className="bg-gray-50 min-h-screen pb-20 font-sans">
+      {/* --- Top Bar: Results Count & Sort --- */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-30 px-4 py-3 shadow-sm">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-gray-600 Unbounded">
+            {products.length} results for{" "}
+            <span className="text-(--prim-color) font-bold">
+              &quot;{query}&quot;
+            </span>
           </p>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-500 hidden sm:inline">
+              Sort by:
+            </span>
+            <details className="relative group">
+              <summary className="list-none flex items-center gap-2 cursor-pointer border border-gray-300 rounded-lg px-4 py-2 text-sm bg-white hover:border-(--prim-color)">
+                <ArrowUpDown className="w-4 h-4" />
+                <span className="whitespace-nowrap">
+                  {sort === "newest" && "Newest Arrivals"}
+                  {sort === "price_asc" && "Price: Low to High"}
+                  {sort === "price_desc" && "Price: High to Low"}
+                  {sort === "rating" && "Product Rating"}
+                </span>
+              </summary>
+
+              {/* Centered logic: left-1/2 -translate-x-1/2 on mobile, right-0 on desktop */}
+              <div className="absolute left-1/2 -translate-x-1/2 md:left-auto md:right-0 md:translate-x-0 top-full mt-2 w-36 whitespace-nowrap bg-white border border-gray-200 rounded-xl shadow-2xl overflow-hidden z-50">
+                <SortOption
+                  label="Newest Arrivals"
+                  value="newest"
+                  currentSort={sort}
+                  query={query}
+                />
+                <SortOption
+                  label="Price: Low to High"
+                  value="price_asc"
+                  currentSort={sort}
+                  query={query}
+                />
+                <SortOption
+                  label="Price: High to Low"
+                  value="price_desc"
+                  currentSort={sort}
+                  query={query}
+                />
+                <SortOption
+                  label="Product Rating"
+                  value="rating"
+                  currentSort={sort}
+                  query={query}
+                />
+              </div>
+            </details>
+          </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {/* Sidebar Filters */}
-          <div className="hidden md:block col-span-1 pr-4 border-r border-gray-100 space-y-6">
-            <div>
-              <h3 className="font-bold text-sm mb-2">Customer Reviews</h3>
-              <div className="flex flex-col gap-1 cursor-pointer">
-                {[5, 4, 3].map((star) => (
-                  <div
+          {/* --- LEFT SIDEBAR (Filters) --- */}
+          <div className="hidden md:block col-span-1 pr-4 space-y-8">
+            <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+              <h3 className="font-bold text-sm mb-3 uppercase tracking-wider text-gray-800">
+                Customer Reviews
+              </h3>
+              <div className="flex flex-col gap-2">
+                {[4, 3, 2, 1].map((star) => (
+                  <Link
+                    href={`/search?q=${query}&rating=${star}`}
                     key={star}
-                    className="flex items-center hover:text-orange-500 group"
+                    className="flex items-center hover:bg-gray-50 p-1 rounded transition-colors group"
                   >
-                    <div className="flex text-yellow-400 group-hover:scale-105 transition-transform">
+                    <div className="flex text-yellow-400">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
@@ -125,39 +197,52 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                         />
                       ))}
                     </div>
-                    <span className="text-sm text-gray-600 ml-2">& Up</span>
-                  </div>
+                    <span className="text-sm text-gray-600 ml-2 group-hover:text-(--prim-color)">
+                      & Up
+                    </span>
+                  </Link>
                 ))}
               </div>
             </div>
-            <div>
-              <h3 className="font-bold text-sm mb-2">Price</h3>
-              <ul className="text-sm text-gray-600 space-y-1 cursor-pointer">
-                <li className="hover:text-orange-600">Under ₦10,000</li>
-                <li className="hover:text-orange-600">₦10,000 - ₦50,000</li>
-                <li className="hover:text-orange-600">₦50,000 - ₦100,000</li>
-                <li className="hover:text-orange-600">Over ₦100,000</li>
-              </ul>
+
+            <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+              <h3 className="font-bold text-sm mb-3 uppercase tracking-wider text-gray-800">
+                Price
+              </h3>
+              <div className="space-y-2">
+                {[
+                  { label: "Under ₦10,000", min: 0, max: 10000 },
+                  { label: "₦10,000 - ₦50,000", min: 10000, max: 50000 },
+                  { label: "₦50,000 - ₦100,000", min: 50000, max: 100000 },
+                  { label: "Over ₦100,000", min: 100000, max: 99999999 },
+                ].map((range, idx) => (
+                  <Link
+                    key={idx}
+                    href={`/search?q=${query}&minPrice=${range.min}&maxPrice=${range.max}`}
+                    className="block text-sm text-gray-600 hover:text-(--prim-color) hover:font-medium py-1"
+                  >
+                    {range.label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Results Grid */}
+          {/* --- RIGHT COLUMN (Results) --- */}
           <div className="col-span-1 md:col-span-3">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Results</h2>
-
             {products.length === 0 ? (
-              <div className="text-center py-20 bg-gray-50 rounded-xl">
+              <div className="text-center py-20 bg-white rounded-xl shadow-sm">
+                <Filter className="w-12 h-12 text-gray-300 mx-auto mb-4" />
                 <p className="text-gray-500 text-lg">
                   We couldn&apos;t find any matches.
                 </p>
-                <p className="text-gray-400">
-                  Try checking your spelling or use more general terms.
+                <p className="text-gray-400 text-sm mt-2">
+                  Try different keywords or check spelling.
                 </p>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 gap-4">
                 {products.map((product) => {
-                  // Calculate display logic
                   const isDeal =
                     product.oldPrice && product.price < product.oldPrice;
                   const discount =
@@ -169,20 +254,17 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                         )
                       : 0;
 
-                  // Use stable random for ratings count
-                  const ratingCount = getStableRandom(product._id, 10, 500);
-
                   return (
                     <div
                       key={product._id}
-                      className="group flex flex-col sm:flex-row gap-4 sm:gap-6 bg-white border border-gray-200 rounded-lg p-4 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 shadow-sm hover:shadow-md"
+                      className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-all duration-300 flex flex-col sm:flex-row gap-4 sm:gap-6 group"
                     >
-                      {/* Product Image */}
-                      <div className="w-full sm:w-56 h-56 shrink-0 bg-gray-100 rounded-md overflow-hidden relative">
+                      {/* Image Area */}
+                      <div className="w-full sm:w-56 h-56 shrink-0 bg-gray-50 rounded-lg overflow-hidden relative">
                         <Link href={`/product/${product.slug}`}>
-                          {product.image ? (
+                          {product.image && product.image[0] ? (
                             <Image
-                              src={urlFor(product.image).url()}
+                              src={urlFor(product.image[0]).url()}
                               alt={product.name}
                               fill
                               className="object-contain p-4 group-hover:scale-105 transition-transform duration-300 mix-blend-multiply"
@@ -195,21 +277,20 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                         </Link>
                       </div>
 
-                      {/* Product Details */}
-                      <div className="flex-1 flex flex-col justify-start">
+                      {/* Content Area */}
+                      <div className="flex-1 flex flex-col Unbounded">
                         <Link href={`/product/${product.slug}`}>
-                          <h3 className="text-lg md:text-xl font-medium text-gray-900 line-clamp-2 hover:text-orange-600 transition-colors">
+                          <h3 className="text-lg font-medium text-gray-900 line-clamp-2 hover:text-(--prim-color) transition-colors mb-2">
                             {product.name}
                           </h3>
                         </Link>
 
-                        {/* Rating / Review */}
-                        <div className="flex items-center gap-1 mt-1">
-                          <div className="flex text-yellow-500">
+                        <div className="flex items-center gap-1 mb-2">
+                          <div className="flex text-yellow-400">
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
-                                size={16}
+                                size={14}
                                 fill={
                                   i < (product.review || 4)
                                     ? "currentColor"
@@ -217,73 +298,56 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                                 }
                                 className={
                                   i < (product.review || 4)
-                                    ? "text-yellow-500"
+                                    ? "text-yellow-400"
                                     : "text-gray-300"
                                 }
                               />
                             ))}
                           </div>
-                          <span className="text-sm text-blue-600 hover:underline cursor-pointer ml-1">
-                            {ratingCount} ratings
+                          <span className="text-xs text-gray-500">
+                            ({product.review || 0})
                           </span>
                         </div>
 
-                        {/* Price Section */}
-                        <div className="mt-2">
-                          {isDeal && (
-                            <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-sm uppercase inline-block mb-1">
-                              Limited time deal
-                            </span>
-                          )}
+                        <div className="mb-2 Unbounded">
                           <div className="flex items-baseline gap-2">
-                            <span className="text-xs relative -top-2">₦</span>
+                            <span className="text-xs font-semibold">₦</span>
                             <span className="text-2xl font-bold text-gray-900">
                               {product.price.toLocaleString()}
                             </span>
-                            <span className="text-xs">00</span>
                           </div>
-                          {isDeal && product.oldPrice && (
-                            <p className="text-sm text-gray-500">
-                              Was:{" "}
+                          {isDeal && (
+                            <div className="text-sm text-gray-500 flex items-center gap-2">
                               <span className="line-through">
-                                ₦{product.oldPrice.toLocaleString()}
-                              </span>{" "}
-                              ({discount}% off)
-                            </p>
+                                ₦{product.oldPrice?.toLocaleString()}
+                              </span>
+                              <span className="text-(--prim-color) bg-orange-50 px-1.5 py-0.5 rounded text-xs font-bold">
+                                -{discount}%
+                              </span>
+                            </div>
                           )}
                         </div>
 
-                        {/* Delivery Info */}
-                        <div className="mt-2 flex flex-col gap-1 text-sm text-gray-700">
-                          <div className="flex items-center gap-2">
-                            <span className="font-bold">
-                              Get it by {getDeliveryDate(product._id)}
-                            </span>
+                        <div className="mt-auto">
+                          <div className="flex items-center gap-2 text-xs text-gray-500 mb-4">
+                            <Truck className="w-4 h-4" />
+                            <span>Free Delivery by Steve O&apos;Bizz</span>
                           </div>
-                          <div className="flex items-center gap-1 text-gray-500 text-xs">
-                            <Truck className="w-3 h-3" />
-                            <span>Free delivery by Steve O&apos;Bizz</span>
+
+                          {/* REPLACED THE BUTTON HERE WITH CLIENT COMPONENT */}
+                          <div className="md:hidden">
+                            <AddToCartButton product={product} />
                           </div>
                         </div>
-
-                        {/* Mobile: Add to Cart Button */}
-                        <button className="mt-4 md:hidden w-full bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 rounded-full text-sm flex items-center justify-center gap-2 cursor-pointer transition-colors">
-                          <ShoppingCart className="w-4 h-4" />
-                          Add to basket
-                        </button>
                       </div>
 
-                      {/* Desktop: Add to Cart Column */}
-                      <div className="hidden md:flex flex-col items-center justify-center w-48 pl-4 border-l border-gray-100">
-                        <div className="text-center w-full">
-                          <p className="text-xl font-bold text-red-700 mb-2">
-                            In Stock
-                          </p>
-                          <button className="w-full bg-yellow-400 hover:bg-yellow-500 transition-colors text-black font-medium py-2.5 rounded-full shadow-sm text-sm flex items-center justify-center gap-2 cursor-pointer">
-                            <ShoppingCart className="w-4 h-4" />
-                            Add
-                          </button>
-                        </div>
+                      {/* Desktop: Right CTA Column */}
+                      <div className="hidden md:flex flex-col justify-center items-center w-48 pl-6 border-l border-gray-100">
+                        <p className="text-lg font-bold text-green-600 mb-3">
+                          In Stock
+                        </p>
+                        {/* REPLACED THE BUTTON HERE WITH CLIENT COMPONENT */}
+                        <AddToCartButton product={product} />
                       </div>
                     </div>
                   );
