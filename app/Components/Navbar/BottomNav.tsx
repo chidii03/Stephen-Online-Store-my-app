@@ -514,7 +514,6 @@ const categories = [
           "Solar Chargers",
           "Eco Cleaning Products",
           "Recycled Envelopes",
-          " Electric Razor Shaver"
         ],
       },
       {
@@ -525,6 +524,14 @@ const categories = [
           "Organic Tea",
           "Recycled Tissue",
           "Solar Power Banks",
+          "Electric Head Shaver"
+        ],
+      },
+       {
+        name: "Indoor Recreation",
+        items: [
+        "Magnetic Folding Chess Board",
+        "Jenga Wooden Block Tower Game",
         ],
       },
     ],

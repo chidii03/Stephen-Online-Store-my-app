@@ -383,7 +383,6 @@ const subNames = [
   "Solar Chargers",
   "Eco Cleaning Products",
   "Recycled Envelopes",
-  "Electric Razor Shaver",
 
   // Sustainable Living
   "Disposable Eco Plates",
@@ -391,6 +390,7 @@ const subNames = [
   "Organic Tea",
   "Recycled Tissue",
   "Solar Power Banks",
+  "Electric Head Shaver",
 
   //Classic Games
   "Chess",
