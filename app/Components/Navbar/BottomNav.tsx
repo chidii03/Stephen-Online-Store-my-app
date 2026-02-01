@@ -514,6 +514,7 @@ const categories = [
           "Solar Chargers",
           "Eco Cleaning Products",
           "Recycled Envelopes",
+          " Electric Razor Shaver"
         ],
       },
       {

@@ -352,23 +352,6 @@ const subNames = [
   "Dehumidifiers",
   "Heaters",
 
-  // Drinks
-  "Coffee",
-  "Tea",
-  "Bottled Water",
-  "Soft Drinks",
-  "Fruit Juice",
-  "Energy Drinks",
-  "Chocolate Drinks",
-
-  // Snacks
-  "Biscuits",
-  "Chips",
-  "Sweets",
-  "Sugar & Sweeteners",
-  "Creamers",
-  "Light Snacks",
-  "Protein Snacks",
 
   // Kitchen Appliances
   "Microwave Ovens",
@@ -377,13 +360,6 @@ const subNames = [
   "Mini Refrigerators",
   "Toasters",
   "Water Dispensers",
-
-  // Packaging Boxes
-  "Carton Boxes",
-  "Moving Cartons",
-  "Storage Boxes",
-  "Poster Tubes",
-  "Heavy Duty Cartons",
 
   // Envelopes & Mailers
   "Bubble Envelopes",
@@ -407,6 +383,7 @@ const subNames = [
   "Solar Chargers",
   "Eco Cleaning Products",
   "Recycled Envelopes",
+  "Electric Razor Shaver",
 
   // Sustainable Living
   "Disposable Eco Plates",
