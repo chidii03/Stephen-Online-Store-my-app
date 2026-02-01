@@ -261,7 +261,6 @@ export default function Checkout() {
                     <option>Abuja</option>
                     <option>Enugu</option>
                     <option>Anambra</option>
-                    <option>Abuja</option>
                     <option>Port-harcourt</option>
                   </select>
                   <input
