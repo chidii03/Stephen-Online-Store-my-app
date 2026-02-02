@@ -34,7 +34,7 @@
     "**/*.mts",
     "**/*.ts",
     "**/*.tsx"
-, "app/UI-Components/Pages/checkout", "app/api/contact/route.js"  ],
+, "app/UI-Components/Pages/checkout", "app/api/contact/route.ts"  ],
   "exclude": [
     "node_modules"
   ]
