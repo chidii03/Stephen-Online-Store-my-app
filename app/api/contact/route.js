@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import twilio from "twilio";
-import db from "@/lib/db"; // Ensure this path matches where you put file #1
+import db from "@/lib/db"; 
 
 export async function POST(request) {
   try {
