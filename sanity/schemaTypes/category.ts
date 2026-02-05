@@ -8,8 +8,20 @@ export default defineType({
     defineField({
       name: 'title',
       title: 'Category Name',
-      type: 'string', // e.g., "Office Supplies"
+      type: 'string',
       validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'categoryId',
+      title: 'Category ID (Order)',
+      description: 'Use numbers 1-10 to order these on the homepage.',
+      type: 'number',
+    }),
+    defineField({
+      name: 'isMain',
+      title: 'Show on Homepage Slider?',
+      type: 'boolean',
+      initialValue: false,
     }),
     defineField({
       name: 'slug',
@@ -24,34 +36,5 @@ export default defineType({
       type: 'image',
       options: { hotspot: true },
     }),
-    // HIERARCHY STARTS HERE
-    defineField({
-      name: 'subcategories',
-      title: 'Sub Categories',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          name: 'subcategory',
-          title: 'Sub Category',
-          fields: [
-            defineField({
-              name: 'name',
-              title: 'Sub Category Name',
-              type: 'string', // e.g., "Office Desk Accessories"
-            }),
-            defineField({
-              name: 'items',
-              title: 'Specific Items',
-              type: 'array',
-              of: [{ type: 'string' }], // e.g., ["Staplers", "Punchers", "Scissors"]
-              options: {
-                layout: 'tags' // This lets you hit "Enter" to add them quickly
-              }
-            })
-          ]
-        }
-      ]
-    })
   ],
 });

@@ -4,13 +4,13 @@ import { defineType, defineField } from "sanity";
 const categories = [
   { title: "Office Supplies", value: "Office Supplies" },
   { title: "School Supplies", value: "School Supplies" },
-  { title: "Ink & Toner", value: "Ink & Toner" },
+  { title: "Ink and Toner", value: "Ink and Toner" },
   { title: "Furniture", value: "Furniture" },
-  { title: "Computer & Accessories", value: "Computer & Accessories" },
+  { title: "Computer and Accessories", value: "Computer and Accessories" },
   { title: "Electronics", value: "Electronics" },
   { title: "Cleaning", value: "Cleaning" },
   { title: "Breakroom", value: "Breakroom" },
-  { title: "Mailing & Shipping", value: "Mailing & Shipping" },
+  { title: "Mailing and Shipping", value: "Mailing and Shipping" },
   { title: "Shop-Greener-Products", value: "Shop-Greener-Products" },
 ];
 
@@ -26,8 +26,7 @@ const subCategories = [
     title: "Paper and Writing Materials",
     value: "Paper and Writing Materials",
   },
-  { title: "General Office Consumables", 
-   value: "General Office Consumables" },
+  { title: "General Office Consumables", value: "General Office Consumables" },
   {
     title: "Calendars, Diaries and Office White Board",
     value: "Calendars, Diaries and Office White Board",
@@ -46,8 +45,7 @@ const subCategories = [
     title: "Learning and Instructional Materials",
     value: "Learning and Instructional Materials",
   },
-  { title: "Nursery and Creche Items",
-    value: "Nursery and Creche Items" },
+  { title: "Nursery and Creche Items", value: "Nursery and Creche Items" },
 
   // Ink & Toner
   { title: "Printer Ink Cartridges", value: "Printer Ink Cartridges" },
@@ -86,6 +84,7 @@ const subCategories = [
 
   // Mailing & Shipping
   { title: "Packaging Boxes", value: "Packaging Boxes" },
+  { title: "Packaging tapes", value: "Packaging tapes" },
   { title: "Envelopes & Mailers", value: "Envelopes & Mailers" },
   { title: "Packaging Materials", value: "Packaging Materials" },
 
@@ -93,7 +92,6 @@ const subCategories = [
   { title: "Eco Office Supplies", value: "Eco Office Supplies" },
   { title: "Sustainable Living", value: "Sustainable Living" },
   { title: "Indoor Recreation", value: "Indoor Recreation" },
-
 ];
 
 const subNames = [
@@ -144,7 +142,6 @@ const subNames = [
   "Office Glue and Adhesives",
   "Office Stamps and Ink Pads",
   "Office Batteries",
-  "First Aid Boxes",
   "Office Scissors",
 
   //Calendars, Diaries and Office White Board"
@@ -162,6 +159,7 @@ const subNames = [
   "Drawing Books and Sketch Pads",
   "Water Colour Paint",
   "Poster and Acrylic Paint",
+  "Artist Spray",
 
   // Classroom Teaching Materials
   "Whiteboards",
@@ -176,14 +174,12 @@ const subNames = [
   "Scientific Calculators",
   "Mathematical Sets",
   "Flash Cards",
-  "Teaching Aids",
   "World Globes",
   "Basic Science Kits",
 
   // Nursery and Creche Items
   "Educational Puzzles",
   "Building Blocks",
-  "Children Story Books",
   "Finger Paint",
   "Alphabet Learning Toys",
 
@@ -217,13 +213,13 @@ const subNames = [
   "Heavy Duty Chairs",
 
   // Office Tables & Desks
-  "Office Workstations",
   "Office Tables",
   "Computer Tables",
   "Conference Tables",
   "Training Tables",
   "Folding Tables",
   "Reception Counters",
+  "Artist Drawing Tables Set",
 
   // Office Storage
   "Filing Cabinets",
@@ -244,7 +240,6 @@ const subNames = [
   "Office Mirrors",
 
   // Office Organization
-  "Coat Hangers",
   "Document Racks",
   "Magazine Holders",
   "Garment Racks",
@@ -258,7 +253,6 @@ const subNames = [
   "Computer Speakers",
   "Mouse Pads",
   "Drawing Tablets",
-  "Game Controllers",
 
   // Storage Devices
   "External Hard Drives",
@@ -267,15 +261,6 @@ const subNames = [
   "Memory Cards",
   "Backup Drives",
   "Network Storage",
-
-  // Laptops & Gadgets
-  "Business Laptops",
-  "Student Laptops",
-  "Tablets",
-  "Laptop Bags",
-  "Privacy Screens",
-  "Laptop Stands",
-  "iPad Accessories",
 
   // Networking Equipment
   "Wi-Fi Routers",
@@ -301,7 +286,6 @@ const subNames = [
   "Sound Systems",
   "Portable Speakers",
   "Public Address Systems",
-  "Mixers",
 
   // Gaming Accessories
   "Game Controllers",
@@ -352,7 +336,6 @@ const subNames = [
   "Dehumidifiers",
   "Heaters",
 
-
   // Kitchen Appliances
   "Microwave Ovens",
   "Electric Kettles",
@@ -375,6 +358,12 @@ const subNames = [
   "Stretch Film",
   "Foam Packaging",
   "Tape Dispensers",
+  "Double Sided tapes",
+  "Duct tape",
+  "Fragile tapes",
+  "Transparent Cellotape",
+  " Brown Cellotapes",
+  "ABRO Ultra Clear Cellotape",
 
   // Eco Office Supplies
   "Recycled Paper",
@@ -394,7 +383,7 @@ const subNames = [
 
   //Classic Games
   "Chess",
-  "Jenga"
+  "Jenga",
 ];
 
 export default defineType({
@@ -501,6 +490,14 @@ export default defineType({
       options: { list: categories },
     }),
 
+    defineField({
+      name: "isCategoryProduct",
+      title: "Is Category Product?",
+      description:
+        "Toggle this to differentiate this product as a standard category item.",
+      type: "boolean",
+      initialValue: false,
+    }),
 
     defineField({
       name: "subCategory",

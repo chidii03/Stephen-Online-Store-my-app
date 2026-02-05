@@ -103,17 +103,6 @@ const categories = [
     icon: "bi-pencil-square",
     subCategories: [
       {
-        name: "School Bags and Lunch Items",
-        items: [
-          "Primary School Backpacks",
-          "Laptop School Bags",
-          "Lunch Bags and Lunch Boxes",
-          "Plastic Water Bottles",
-          "Drawstring School Bags",
-          "Side and Shoulder Bags",
-        ],
-      },
-      {
         name: "Arts, Crafts and Drawing Materials",
         items: [
           "Crayons and Colour Pencils",
@@ -123,6 +112,7 @@ const categories = [
           "Drawing Books and Sketch Pads",
           "Water Colour Paint",
           "Poster and Acrylic Paint",
+          "Artist Spray",
         ],
       },
       {
@@ -223,6 +213,7 @@ const categories = [
           "Training Tables",
           "Folding Tables",
           "Reception Counters",
+          "Artist Drawing Tables Set",
         ],
       },
       {
@@ -296,8 +287,6 @@ const categories = [
           "Business Laptops",
           "Student Laptops",
           "Tablets",
-          "Laptop Bags",
-          "Privacy Screens",
           "Laptop Stands",
           "iPad Accessories",
         ],
@@ -314,18 +303,6 @@ const categories = [
           "Fiber Optic Cables",
         ],
       },
-      {
-        name: "Computer Parts",
-        items: [
-          "SSD & HDD",
-          "RAM",
-          "Graphics Cards",
-          "Processors",
-          "Power Supply Units",
-          "Motherboards",
-          "System Units",
-        ],
-      },
     ],
   },
   {
@@ -340,8 +317,6 @@ const categories = [
           "Bluetooth Earphones",
           "Sound Systems",
           "Portable Speakers",
-          "Public Address Systems",
-          "Mixers",
         ],
       },
       {
@@ -468,13 +443,14 @@ const categories = [
     icon: "bi-box-seam",
     subCategories: [
       {
-        name: "Packaging Boxes",
+        name: "Packaging Cellotapes",
         items: [
-          "Carton Boxes",
-          "Moving Cartons",
-          "Storage Boxes",
-          "Poster Tubes",
-          "Heavy Duty Cartons",
+          "Double Sided tapes",
+          "Duct tape",
+          "Fragile tapes",
+          "Transparent Cellotape",
+          " Brown Cellotapes",
+          "ABRO Ultra Clear Cellotape",
         ],
       },
       {
