@@ -3,6 +3,7 @@ import { sanityFetch } from "@/app/lib/sanity";
 import ProductGallery from "@/app/Components/ProductGallery";
 import RelatedSlider from "@/app/Components/RelatedSlider";
 import AddToCartSection from "@/app/Components/AddToCartSection";
+import Link from "next/link";
 
 // --- Types ---
 interface SanityImage {
@@ -76,7 +77,11 @@ export default async function ProductPage({ params }: Props) {
       <div className="bg-gray-100/50 border-b border-gray-200">
         <div className="max-w-360 mx-auto px-4 py-3 text-xs text-gray-500 font-medium flex items-center Unbounded gap-2">
           <span>Home</span> <i className="bi bi-chevron-right text-[10px]"></i>
-          <span>Shop</span> <i className="bi bi-chevron-right text-[10px]"></i>
+          <div className="cursor-pointer">
+          <Link href="/ShopAll">
+          <span >Shop</span> <i className="bi bi-chevron-right text-[10px]"></i>
+          </Link>
+          </div>
           <span className="text-black truncate max-w-50 font-bold">{product.name}</span>
         </div>
       </div>

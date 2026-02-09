@@ -56,7 +56,6 @@ const handleSubscribe = async (e: React.FormEvent) => {
     const data = await res.json();
 
     if (res.ok) {
-      // Backend now sends welcome email even if already subscribed
       toast.success(data.message || "Welcome to the family! Check your inbox.");
       setEmail("");
       setShowPopup(false);

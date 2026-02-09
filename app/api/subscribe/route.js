@@ -7,7 +7,7 @@ let isSending = false;
 export async function POST(req) {
   if (req.method === 'POST') {
     const origin = req.headers.get('origin');
-    if (origin === 'https://steveobizzstore.vercel.app') {
+    if (origin === 'http://localhost:3000') {
       // Basic CORS check (optional in Next.js)
     }
   }
@@ -67,7 +67,7 @@ export async function POST(req) {
                 With each communication, we aim to bring you closer to products that embody the highest standards of quality, craftsmanship, and innovation. Whether you are seeking practical solutions, elegant designs, or unique gifts, we’re committed to ensuring that your time with us is nothing short of exceptional.
               </p>
               <div style="margin-top: 20px; text-align: center;">
-                <a href="https://stephen-online-store-my-app.vercel.app" style="display: inline-block; background-color: #4b70f5; color: white; padding: 12px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">Shop Now</a>
+                <a href="https://steveobizzstore.vercel.app" style="display: inline-block; background-color: #4b70f5; color: white; padding: 12px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">Shop Now</a>
               </div>
               <footer style="margin-top: 30px; text-align: center; font-size: 14px; color: #666;">
                 <p>Warm regards,<br>The Steve-Obizz-Store Team</p>
