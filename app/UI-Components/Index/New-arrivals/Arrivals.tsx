@@ -169,11 +169,6 @@ export default function Arrivals() {
                 <span className="text-[10px] text-gray-500">/Qty</span>
               </div>
 
-              <div className="flex items-center gap-1 text-sm Merienda text-gray-500">
-                <i className="bi bi-shop text-(--prim-color)"></i>
-                <span>By Steve Obizz&apos;s Store</span>
-              </div>
-
               <h3 className="text-sm Unbounded font-medium text-gray-800 line-clamp-2">
                 {product.name}
               </h3>
