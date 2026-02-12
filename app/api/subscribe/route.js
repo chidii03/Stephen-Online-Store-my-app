@@ -7,7 +7,7 @@ let isSending = false;
 export async function POST(req) {
   if (req.method === 'POST') {
     const origin = req.headers.get('origin');
-    if (origin === 'http://localhost:3000') {
+    if (origin === 'https://steveobizzstore.vercel.app') {
       // Basic CORS check (optional in Next.js)
     }
   }
