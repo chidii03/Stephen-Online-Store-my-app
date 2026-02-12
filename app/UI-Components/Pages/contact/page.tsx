@@ -9,7 +9,7 @@ import {
   HelpCircle,
   Sparkles,
 } from "lucide-react";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import { API_URL } from "@/app/lib/api";
 import Link from "next/link";
 
@@ -32,7 +32,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   
   try {
     // Point this to your Render Backend
-    const response = await fetch('/api/contact', {
+    const response = await fetch(`${API_URL}/api/contact`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
