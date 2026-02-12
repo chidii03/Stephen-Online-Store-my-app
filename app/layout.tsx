@@ -19,6 +19,7 @@ const merienda = Merienda({
   subsets: ["latin"],
   display: "swap",
 });
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,12 +31,37 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Steve O Bizz Store",
-  description: "Steve O Bizz Stationery Store",
-
-  icons: {
+  title: {
+    default: "Steve Obizz Store | Online Shopping for Stationery, Office Supplies & Gifts",
+    template: "%s | Steve OBizz Store",
+  },
+    icons: {
     icon: "/favicon.ico",
-  }
+  },
+
+  description: "Shop premium office supplies, school stationery, art materials, and corporate gifts at the best prices in Nigeria. Fast delivery to your doorstep.",
+  keywords: [
+    "Stationery Store Lagos",
+    "Office Supplies Nigeria",
+    "School Supplies Online",
+    "Corporate Gifts Ikeja",
+    "Art Materials Shop",
+    "Steve O'Bizz",
+    "Buy Paper Online",
+    "Office Equipment",
+  ],
+  authors: [{ name: "Steve O'Bizz Team" }],
+  creator: "Steve O'Bizz Store",
+  publisher: "Steve O'Bizz Store",
+  
+  openGraph: {
+    type: "website",
+    locale: "en_NG",
+    url: "https://steveobizzstore.vercel.app",
+    title: "Steve Obizz Store | Online Shopping for Stationery, Office Supplies & Gifts",
+    description: "Shop premium office supplies, school stationery, art materials, and corporate gifts at the best prices in Nigeria.",
+    siteName: "Steve O'Bizz Store",
+  },
 };
 
 export default function RootLayout({
