@@ -32,7 +32,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   
   try {
     // Point this to your Render Backend
-    const response = await fetch(`${API_URL}/api/contact`, {
+    const response = await fetch('https://steveobizzstore.vercel.app/api/contact', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
