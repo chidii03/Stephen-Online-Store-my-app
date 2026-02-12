@@ -1,43 +1,65 @@
-import { NextRequest, NextResponse } from "next/server";
-import nodemailer from "nodemailer";
-import twilio from "twilio";
+import { NextRequest, NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
+import twilio from 'twilio';
+import db from '@/app/lib/db';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { name, email, phone, message } = body;
 
-    // 1. Validate Input
+    // --- Validate required fields ---
     if (!email || !name) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
-    }
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }   
 
-    // 2. Twilio WhatsApp Configuration
-    const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-    
-    // Sends WhatsApp to the owner (+234 8079379510)
-    const whatsappPromise = client.messages.create({
-      from: `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`, // Usually 'whatsapp:+14155238886' for sandbox
-      to: `whatsapp:+2348079379510`,
-      body: `🚀 New Web Inquiry\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nMessage: ${message}`
+    // --- Save inquiry to Turso database ---
+    await db.execute({
+      sql: 'INSERT INTO contacts (name, email, phone, message) VALUES (?, ?, ?, ?)',
+      args: [name, email, phone || null, message || null],
     });
 
-    // 3. Nodemailer Configuration
+    // --- Optional WhatsApp notification (skip if Twilio env vars missing) ---
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let whatsappPromise: Promise<any> = Promise.resolve();
+
+    if (
+      process.env.TWILIO_ACCOUNT_SID &&
+      process.env.TWILIO_AUTH_TOKEN &&
+      process.env.TWILIO_PHONE_NUMBER
+    ) {
+      const client = twilio(
+        process.env.TWILIO_ACCOUNT_SID,
+        process.env.TWILIO_AUTH_TOKEN
+      );
+
+      whatsappPromise = client.messages.create({
+        from: `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`,
+        to: `whatsapp:+2348079379510`, // Owner's WhatsApp number
+        body: `🚀 New Web Inquiry\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nMessage: ${message}`,
+      });
+    } else {
+      console.warn('⚠️ Twilio credentials missing – WhatsApp notification skipped');
+    }
+
+    // --- Send confirmation email to customer ---
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      service: 'gmail',
       auth: {
-        user: process.env.EMAIL_USER, // chidiokwu795@gmail.com
-        pass: process.env.EMAIL_PASS, // Your Gmail App Password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
-    // Send confirmation email TO the customer
     const mailOptions = {
       from: `"Steve O'Bizz Store" <${process.env.EMAIL_USER}>`,
-      to: email, // The customer's email from the form
+      to: email,
       subject: `We received your inquiry, ${name}!`,
       html: `
-        <div style="font-family: sans-serif; max-width: 600px; margin: auto; border: 1px solid #1e3a8a; padding: 20px; border-radius: 10px;">
+        <div style="font-family: sans-serif; max-width: 600px; margin: auto; border: 1px solid #FFFFFF; padding: 20px; border-radius: 10px;">
           <h2 style="color: #1e3a8a;">Hello ${name},</h2>
           <p>Thank you for reaching out to <strong>Steve O'Bizz Store</strong>. We have received your message and our team will get back to you shortly.</p>
           <div style="background: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
@@ -51,12 +73,15 @@ export async function POST(request: NextRequest) {
       `,
     };
 
-    // Execute both tasks
+    // --- Execute both tasks concurrently ---
     await Promise.all([whatsappPromise, transporter.sendMail(mailOptions)]);
 
-    return NextResponse.json({ message: "Success" }, { status: 200 });
+    return NextResponse.json({ message: 'Success' }, { status: 200 });
   } catch (error) {
-    console.error("Deployment Error:", error.message);
-    return NextResponse.json({ error: "Failed to process request" }, { status: 500 });
+    console.error('❌ Contact API Error:', error.message);
+    return NextResponse.json(
+      { error: 'Failed to process request' },
+      { status: 500 }
+    );
   }
 }
