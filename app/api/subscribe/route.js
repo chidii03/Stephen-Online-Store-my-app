@@ -1,12 +1,6 @@
 import nodemailer from 'nodemailer';
 import db from '@/app/lib/db';
 
-/**
- * POST /api/subscribe
- * 
- * 1. Saves the subscriber's email to the Turso database.
- * 2. Sends a welcome email via Nodemailer.
- */
 export async function POST(req) {
   try {
     const { email } = await req.json();

@@ -46,8 +46,7 @@ const handleSubscribe = async (e: React.FormEvent) => {
   setLoading(true);
 
   try {
-    // We call the Render backend URL here
-    const res = await fetch(`${API_URL}/api/subscribe`, {
+    const res = await fetch(`${API_URL}/api/newsletter/subscribe`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
