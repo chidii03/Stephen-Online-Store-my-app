@@ -1,5 +1,4 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://steveobizzstore.onrender.com";
-
 // Types
 export interface OrderData {
   customer: { name: string; email: string; phone: string; address: string; state: string };
