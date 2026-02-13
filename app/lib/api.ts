@@ -1,4 +1,5 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://steveobizzstore.onrender.com";
+
 // Types
 export interface OrderData {
   customer: { name: string; email: string; phone: string; address: string; state: string };
@@ -9,10 +10,10 @@ export interface OrderData {
 export interface OrderResponse {
   order_id: string;
   customer_name: string;
-  customer_email:string
-  customer_phone:number;
-  address:string;
-  state:string
+  customer_email: string;
+  customer_phone: number;
+  address: string;
+  state: string;
   amount: number;
   status: 'PENDING' | 'PAID' | 'SHIPPED' | 'DELIVERED';
   created_at: string;
@@ -43,7 +44,6 @@ export const subscribeNewsletter = async (email: string) => {
   });
   return res.json();
 };
-
 
 // Admin API
 export const adminLogin = async (password: string) => {
