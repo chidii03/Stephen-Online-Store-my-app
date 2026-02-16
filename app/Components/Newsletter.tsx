@@ -46,7 +46,7 @@ const handleSubscribe = async (e: React.FormEvent) => {
   setLoading(true);
 
   try {
-    const res = await fetch(`${API_URL}/api/newsletter/subscribe`, {
+    const res = await fetch('/api/subscribe', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),

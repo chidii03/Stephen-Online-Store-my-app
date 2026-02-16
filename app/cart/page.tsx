@@ -336,7 +336,7 @@ export default function Cart() {
                     className="object-contain"
                   />
                   <Image
-                    src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg"
+                    src="/categories/images/payment/payment-01.svg"
                     alt="Visa"
                     width={40}
                     height={20}
