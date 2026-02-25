@@ -139,7 +139,7 @@ export default function Deals() {
                   <div className="space-y-2">
                     <button
                       onClick={() => handleAddToCart(deal)}
-                      className="px-5 py-2 rounded-full text-white font-bold bg-(--prim-color) hover:bg-white hover:text-(--prim-color) border border-(--prim-color) transition-all"
+                      className="px-3 py-2 rounded-full text-white font-bold bg-(--prim-color) hover:bg-white hover:text-(--prim-color) border border-(--prim-color) transition-all"
                     >
                       Shop Now →
                     </button>
