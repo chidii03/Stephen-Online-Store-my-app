@@ -289,15 +289,17 @@ export default function Checkout() {
 
               {deliveryOption === "ship" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* ✅ All 36 Nigerian States + FCT */}
+                  {/* ✅ All 36 Nigerian States + FCT — compact scrollable dropdown */}
                   <select
                     name="state"
                     onChange={handleChange}
                     value={formData.state}
-                    className="border border-gray-300 rounded-lg p-3 md:col-span-2"
+                    size={1}
+                    className="border border-gray-300 rounded-lg p-3 md:col-span-2 bg-white cursor-pointer focus:ring-2 focus:ring-(--prim-color) outline-none appearance-none"
+                    style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
                     required
                   >
-                    <option value="">Select State</option>
+                    <option value="">Select your state</option>
                     {NIGERIAN_STATES.map((state) => (
                       <option key={state} value={state}>
                         {state}
