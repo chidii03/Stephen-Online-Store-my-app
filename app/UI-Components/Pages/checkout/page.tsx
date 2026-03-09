@@ -20,6 +20,47 @@ type CartItem = {
   image: SanityImage[];
 };
 
+// All 36 Nigerian States + FCT
+const NIGERIAN_STATES = [
+  "Abia",
+  "Adamawa",
+  "Akwa Ibom",
+  "Anambra",
+  "Bauchi",
+  "Bayelsa",
+  "Benue",
+  "Borno",
+  "Cross River",
+  "Delta",
+  "Ebonyi",
+  "Edo",
+  "Ekiti",
+  "Enugu",
+  "FCT (Abuja)",
+  "Gombe",
+  "Imo",
+  "Jigawa",
+  "Kaduna",
+  "Kano",
+  "Katsina",
+  "Kebbi",
+  "Kogi",
+  "Kwara",
+  "Lagos",
+  "Nasarawa",
+  "Niger",
+  "Ogun",
+  "Ondo",
+  "Osun",
+  "Oyo",
+  "Plateau",
+  "Rivers",
+  "Sokoto",
+  "Taraba",
+  "Yobe",
+  "Zamfara",
+];
+
 export default function Checkout() {
   const [deliveryOption, setDeliveryOption] = useState<"ship" | "pickup">(
     "ship",
@@ -156,7 +197,6 @@ export default function Checkout() {
     };
 
     try {
-      // UPDATED: Use the API_URL + proper route
       const res = await fetch(`${API_URL}/api/orders/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -177,6 +217,7 @@ export default function Checkout() {
       setLoading(false);
     }
   };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -198,7 +239,6 @@ export default function Checkout() {
           {/* LEFT SIDE: Form */}
           <div className="lg:col-span-7 space-y-6">
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-              {/* Form Inputs remain same as your code */}
               <h5 className="mb-4 Unbounded text-xl font-bold text-gray-800 border-b pb-2 whitespace-nowrap">
                 Contact Information
               </h5>
@@ -249,6 +289,7 @@ export default function Checkout() {
 
               {deliveryOption === "ship" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* ✅ All 36 Nigerian States + FCT */}
                   <select
                     name="state"
                     onChange={handleChange}
@@ -257,11 +298,11 @@ export default function Checkout() {
                     required
                   >
                     <option value="">Select State</option>
-                    <option>Lagos</option>
-                    <option>Abuja</option>
-                    <option>Enugu</option>
-                    <option>Anambra</option>
-                    <option>Port-harcourt</option>
+                    {NIGERIAN_STATES.map((state) => (
+                      <option key={state} value={state}>
+                        {state}
+                      </option>
+                    ))}
                   </select>
                   <input
                     name="firstName"
@@ -398,7 +439,7 @@ export default function Checkout() {
                 )}
               </div>
 
-              {/* Totals Section - UPDATED TO MATCH CART */}
+              {/* Totals Section */}
               <div className="space-y-3 pt-4 border-t border-gray-100">
                 <div className="flex justify-between text-gray-500">
                   <span className="Unbounded text-sm">Subtotal</span>
