@@ -50,7 +50,7 @@ export default function AboutPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
           <h1 className="font-display text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
             Our Story of <br />
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-primary-400 to-blue-400">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-primary-400 to-blue-500">
               Excellence
             </span>
           </h1>
@@ -95,7 +95,6 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Store Showcase with Video */}
       {/* Store Showcase with Video */}
       <div className="bg-gray-50 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -257,7 +256,7 @@ export default function AboutPage() {
       </div>
 
       {/* CTA Section - Blue & Updated Links */}
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center relative z-10 bg-linear-to-br from-blue-900 via-blue-950 to-slate-900 rounded-3xl my-10 border border-blue-800/50">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">

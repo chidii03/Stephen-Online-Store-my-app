@@ -10,7 +10,6 @@ import {
   Sparkles,
 } from "lucide-react";
 import { toast } from "react-toastify";
-import { API_URL } from "@/app/lib/api";
 import Link from "next/link";
 
 export default function ContactPage() {
@@ -25,41 +24,40 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-  
-  try {
-    // Point this to your Render Backend
-    const response = await fetch('/api/contact', {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      toast.success("Message sent successfully!");
-      setIsSubmitted(true);
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        company: "",
-        subject: "General Inquiry",
-        message: "",
+    try {
+      // Point this to your Render Backend
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
-    } else {
-      toast.error(data.error || "Failed to send message.");
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success("Message sent successfully!");
+        setIsSubmitted(true);
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          company: "",
+          subject: "General Inquiry",
+          message: "",
+        });
+      } else {
+        toast.error(data.error || "Failed to send message.");
+      }
+    } catch {
+      toast.error("Network error. Please check your connection.");
+    } finally {
+      setIsSubmitting(false);
     }
-  } catch {
-    toast.error("Network error. Please check your connection.");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -222,16 +220,19 @@ const handleSubmit = async (e: React.FormEvent) => {
       </div>
 
       {/* CTA Bottom Section with Requested Gradient */}
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center relative z-10 bg-linear-to-br from-blue-900 via-blue-950 to-slate-900 rounded-3xl my-10 border border-blue-800/50">
+
+        <div className="max-w-7xl mx-auto py-20 text-center relative z-10 bg-linear-to-br from-blue-900 via-blue-950 to-slate-900 rounded-3xl my-10 border border-blue-800/50">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
             Ready to Upgrade Your Office?
           </h2>
+
           <p className="text-blue-100 text-xl mb-10 max-w-2xl mx-auto">
             Join thousands of satisfied corporate clients who trust Steve
             O&apos;Bizz Store.
           </p>
+
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
               href="/UI-Components/Pages/about"
@@ -239,6 +240,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             >
               <Sparkles className="w-5 h-5" /> Discover Our Story
             </Link>
+
             <Link
               href="/Help"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-blue-800 text-white font-bold hover:bg-blue-900 transition-colors"
