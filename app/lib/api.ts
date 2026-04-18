@@ -52,12 +52,13 @@ export const subscribeNewsletter = async (email: string) => {
 };
 
 // ── Admin ─────────────────────────────────────────────────────────────────────
-const ADMIN_PASSWORD =  process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
-export const adminLogin = async (
-  password: string
-): Promise<{ success: boolean }> => {
-  if (password === ADMIN_PASSWORD) return { success: true };
-  return { success: false };
+export const adminLogin = async (password: string) => {
+  const res = await fetch("/api/admin-login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ password }),
+  });
+  return res.json();
 };
 
 // FIX: was /admin/orders — must be /api/admin/orders to match app.js route prefix
