@@ -1,6 +1,8 @@
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://steveobizzstore.onrender.com";
+// app/lib/api.ts
+export const API_URL =
+  (process.env.NEXT_PUBLIC_API_URL || "https://steveobizzstore.onrender.com").replace(/\/$/, "");
 
-// Types
+// ── Types ─────────────────────────────────────────────────────────────────────
 export interface OrderData {
   customer: { name: string; email: string; phone: string; address: string; state: string };
   cart: Array<{ id: string; name: string; price: number; qty: number; image: string }>;
@@ -8,58 +10,96 @@ export interface OrderData {
 }
 
 export interface OrderResponse {
-  order_id: string;
-  customer_name: string;
+  order_id:       string;
+  reference:      string;
+  customer_name:  string;
   customer_email: string;
-  customer_phone: number;
-  address: string;
-  state: string;
-  amount: number;
-  status: 'PENDING' | 'PAID' | 'SHIPPED' | 'DELIVERED';
-  created_at: string;
-  items: unknown[];
+  customer_phone: string;
+  address:        string;
+  state:          string;
+  amount:         number;
+  total_amount?:  number;   // some controllers use total_amount
+  status:         "PENDING" | "PAID" | "SHIPPED" | "DELIVERED";
+  created_at:     string;
+  items?:         unknown[];
 }
 
-// API Calls
+// ── Payment ───────────────────────────────────────────────────────────────────
 export const initPayment = async (orderData: OrderData) => {
-  const res = await fetch(`${API_URL}/payment/init`, {
-    method: "POST",
+  const res = await fetch(`${API_URL}/api/payment/init`, {
+    method:  "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(orderData),
+    body:    JSON.stringify(orderData),
   });
   return res.json();
 };
 
+// ── Order tracking ────────────────────────────────────────────────────────────
 export const fetchTrackingInfo = async (id: string) => {
-  const res = await fetch(`${API_URL}/orders/${id}`);
+  const res = await fetch(`${API_URL}/api/orders/track/${id}`);
   if (!res.ok) return null;
   return res.json();
 };
 
+// ── Newsletter ────────────────────────────────────────────────────────────────
 export const subscribeNewsletter = async (email: string) => {
-  const res = await fetch(`${API_URL}/newsletter/subscribe`, {
-    method: "POST",
+  const res = await fetch(`${API_URL}/api/newsletter/subscribe`, {
+    method:  "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email }),
+    body:    JSON.stringify({ email }),
   });
   return res.json();
 };
 
-// Admin API
-export const adminLogin = async (password: string) => {
-  if (password === "admin123") return { success: true, token: "mock-jwt-token" };
+// ── Admin ─────────────────────────────────────────────────────────────────────
+// Simple hardcoded login — no backend login route exists, so we check locally.
+// Change this password to something secure and store it in your env.
+const ADMIN_PASSWORD =
+  process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "admin123";
+
+export const adminLogin = async (
+  password: string
+): Promise<{ success: boolean }> => {
+  if (password === ADMIN_PASSWORD) return { success: true };
   return { success: false };
 };
 
-export const fetchAdminOrders = async () => {
-  const res = await fetch(`${API_URL}/admin/orders`);
-  return res.json();
+// FIX: was /admin/orders — must be /api/admin/orders to match app.js route prefix
+export const fetchAdminOrders = async (): Promise<OrderResponse[]> => {
+  try {
+    const res = await fetch(`${API_URL}/api/admin/orders`);
+    if (!res.ok) {
+      console.error("[fetchAdminOrders] HTTP", res.status, await res.text());
+      return [];
+    }
+    const data = await res.json();
+    // Turso may return { rows: [...] } — normalise to array
+    if (Array.isArray(data))        return data;
+    if (Array.isArray(data?.rows))  return data.rows;
+    if (Array.isArray(data?.data))  return data.data;
+    console.warn("[fetchAdminOrders] unexpected shape:", data);
+    return [];
+  } catch (e) {
+    console.error("[fetchAdminOrders] network error:", e);
+    return [];
+  }
 };
 
-export const updateOrderStatus = async (orderId: string, status: string) => {
-  await fetch(`${API_URL}/admin/update-status`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ orderId, status }),
-  });
+// FIX: was /admin/update-status — must be /api/admin/update-status
+export const updateOrderStatus = async (
+  orderId: string,
+  status:  string
+): Promise<void> => {
+  try {
+    const res = await fetch(`${API_URL}/api/admin/update-status`, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ orderId, status }),
+    });
+    if (!res.ok) {
+      console.error("[updateOrderStatus] HTTP", res.status, await res.text());
+    }
+  } catch (e) {
+    console.error("[updateOrderStatus] network error:", e);
+  }
 };
