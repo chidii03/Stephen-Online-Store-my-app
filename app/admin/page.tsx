@@ -72,7 +72,7 @@ export default function AdminDashboard() {
           <input
             type="password"
             placeholder="Access Key"
-            className="w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white mb-6 focus:ring-2 focus:ring-(--prim-color,#6366f1) outline-none transition-all"
+            className="w-full bg-white/5 border border-white/10 p-4 rounded-xl text-black mb-6 focus:ring-2 focus:ring-(--prim-color,#6366f1) outline-none transition-all"
             onChange={e => setPassword(e.target.value)}
             onKeyDown={e => e.key === "Enter" && handleLogin()}
           />
