@@ -52,11 +52,7 @@ export const subscribeNewsletter = async (email: string) => {
 };
 
 // ── Admin ─────────────────────────────────────────────────────────────────────
-// Simple hardcoded login — no backend login route exists, so we check locally.
-// Change this password to something secure and store it in your env.
-const ADMIN_PASSWORD =
-  process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
-
+const ADMIN_PASSWORD =  process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
 export const adminLogin = async (
   password: string
 ): Promise<{ success: boolean }> => {
