@@ -58,7 +58,7 @@ export default function TrackOrder() {
                     </div>
                     <div className="text-right">
                         <p className="text-xs opacity-80 uppercase tracking-widest mb-1">Amount</p>
-                        <p className="text-xl font-bold">₦{data.amount.toLocaleString()}</p>
+                        <p className="text-xl font-bold">₦{data.total_amount.toLocaleString()}</p>
                     </div>
                 </div>
 
