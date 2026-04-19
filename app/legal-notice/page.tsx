@@ -1,6 +1,5 @@
 // app/legal-notice/page.tsx
-import Link from "next/link";
-import { ArrowLeft, Landmark, Database, Cookie, Eye, Lock, Mail, MapPin } from "lucide-react";
+import { Landmark, Database, Cookie, Eye, Lock, Mail, MapPin } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export const metadata = { title: "Legal Notice | Steve O Bizz Store" };
@@ -22,36 +21,29 @@ export default function LegalNotice() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <div className="bg-linear-to-br from-[#4b70f5] to-[#2952e3] text-white">
-        <div className="max-w-4xl mx-auto px-6 py-16">
-          <Link href="/" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm font-semibold mb-8 transition-colors">
-            <ArrowLeft size={16} /> Back to Store
-          </Link>
+        <div className="max-w-4xl mx-auto px-6 py-16">        
           <div className="flex items-center gap-4 mb-4">
             <div className="w-14 h-14 bg-white/15 rounded-2xl flex items-center justify-center">
               <Landmark size={28} />
             </div>
             <div>
-              <p className="text-white/60 text-sm font-semibold uppercase tracking-widest">Steve O Bizz Store</p>
               <h1 className="text-4xl font-black uppercase tracking-tighter">Legal Notice</h1>
             </div>
           </div>
           <p className="text-white/75 max-w-xl leading-relaxed">
             Important legal information about who we are, how we handle your data, and your rights as a consumer and website visitor.
           </p>
-          <div className="mt-6 inline-flex items-center gap-2 bg-white/15 rounded-full px-4 py-2 text-sm font-semibold">
-            Effective: April 2025
-          </div>
         </div>
       </div>
 
       {/* Business identity banner */}
       <div className="bg-gray-50 border-b border-gray-100">
-        <div className="max-w-4xl mx-auto px-6 py-8">
+        <div className="max-w-4xl mx-auto px-6 py-5">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               { label: "Business Name",    value: "Steve O Bizz Store",          icon: Landmark  },
               { label: "Business Country", value: "Federal Republic of Nigeria",  icon: MapPin    },
-              { label: "Contact Email",    value: "legal@steveobizzstore.com",    icon: Mail      },
+              { label: "Contact Email",    value: "steveobizz@yahoo.com",    icon: Mail      },
             ].map((item, i) => (
               <div key={i} className="flex items-start gap-3">
                 <div className="w-9 h-9 rounded-xl bg-[#4b70f5]/10 flex items-center justify-center shrink-0 mt-0.5">
@@ -72,16 +64,15 @@ export default function LegalNotice() {
 
         <Section icon={Landmark} title="Publisher Information">
           <p>
-            This website (<strong className="text-gray-900">steveobizzstore.vercel.app</strong>) is owned and operated by <strong className="text-gray-900">Steve O Bizz Store</strong>, a retail business registered and operating under the laws of the Federal Republic of Nigeria.
+            This website is owned and operated by <strong className="text-gray-900">Steve O Bizz Store</strong>, a retail business registered and operating under the laws of the Federal Republic of Nigeria.
           </p>
           <p>All correspondence regarding the legal operation of this website should be directed to:</p>
           <div className="bg-[#4b70f5]/5 border border-[#4b70f5]/20 rounded-2xl p-5 mt-2">
             <p className="font-bold text-gray-900">Steve O Bizz Store</p>
-            <p className="text-sm mt-1">Nigeria</p>
             <p className="text-sm">
               Email:{" "}
-              <a href="mailto:legal@steveobizzstore.com" className="text-[#4b70f5] underline">
-                legal@steveobizzstore.com
+              <a href="mailto:steveobizz@yahoo.com" className="text-[#4b70f5]">
+                steveobizz@yahoo.com
               </a>
             </p>
           </div>
@@ -167,12 +158,7 @@ export default function LegalNotice() {
               </div>
             ))}
           </div>
-          <p className="mt-5 text-sm">
-            To exercise any of these rights, contact us at{" "}
-            <a href="mailto:legal@steveobizzstore.com" className="text-[#4b70f5] font-semibold underline">
-              legal@steveobizzstore.com
-            </a>. We will respond within <strong className="text-gray-900">14 business days</strong>.
-          </p>
+          
         </Section>
 
         <Section icon={Landmark} title="Disclaimer of Warranties">
@@ -213,25 +199,8 @@ export default function LegalNotice() {
           <p className="text-white/75 text-sm mb-6">
             If you have concerns about how your data is handled or wish to exercise your rights, our team is here to assist.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <a href="mailto:legal@steveobizzstore.com"
-              className="inline-flex items-center gap-2 bg-white text-[#4b70f5] font-bold rounded-xl px-5 py-3 text-sm hover:bg-white/90 transition-all">
-              <Mail size={15} /> legal@steveobizzstore.com
-            </a>
-          </div>
         </div>
-
       </div>
-
-      <footer className="border-t border-gray-100 py-8">
-        <div className="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-400">
-          <p>© {new Date().getFullYear()} Steve O Bizz Store. All rights reserved.</p>
-          <div className="flex gap-6">
-            <Link href="/return-policy" className="hover:text-[#4b70f5] transition-colors">Return Policy</Link>
-            <Link href="/terms" className="hover:text-[#4b70f5] transition-colors">Terms & Conditions</Link>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

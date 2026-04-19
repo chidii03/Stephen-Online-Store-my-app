@@ -1,6 +1,6 @@
 // app/terms/page.tsx
 import Link from "next/link";
-import { ArrowLeft, FileText, ShoppingBag, Shield, CreditCard, AlertTriangle, Users, Globe, Scale } from "lucide-react";
+import { FileText, ShoppingBag, Shield, CreditCard, AlertTriangle, Users, Globe, Scale } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export const metadata = { title: "Terms & Conditions | Steve O Bizz Store" };
@@ -40,25 +40,18 @@ export default function TermsAndConditions() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <div className="bg-linear-to-br from-[#4b70f5] to-[#2952e3] text-white">
-        <div className="max-w-5xl mx-auto px-6 py-16">
-          <Link href="/" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm font-semibold mb-8 transition-colors">
-            <ArrowLeft size={16} /> Back to Store
-          </Link>
+        <div className="max-w-5xl mx-auto px-6 py-8">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-14 h-14 bg-white/15 rounded-2xl flex items-center justify-center">
               <FileText size={28} />
             </div>
             <div>
-              <p className="text-white/60 text-sm font-semibold uppercase tracking-widest">Steve O Bizz Store</p>
               <h1 className="text-4xl font-black uppercase tracking-tighter">Terms & Conditions</h1>
             </div>
           </div>
           <p className="text-white/75 max-w-xl leading-relaxed">
             Please read these terms carefully before using our website or placing an order. By shopping with us, you agree to be bound by these terms.
           </p>
-          <div className="mt-6 inline-flex items-center gap-2 bg-white/15 rounded-full px-4 py-2 text-sm font-semibold">
-            Effective: April 2025 · Version 1.0
-          </div>
         </div>
       </div>
 
@@ -156,27 +149,8 @@ export default function TermsAndConditions() {
             <p>These Terms are governed by and construed in accordance with the laws of the <strong className="text-gray-900">Federal Republic of Nigeria</strong>. Any disputes shall be subject to the exclusive jurisdiction of the Nigerian courts.</p>
             <p>If any provision of these Terms is found to be unenforceable, the remaining provisions will continue in full force and effect.</p>
           </Section>
-
-          <div className="bg-linear-to-br from-[#4b70f5] to-[#2952e3] rounded-3xl p-8 text-white mt-4">
-            <h3 className="text-lg font-black uppercase tracking-tight mb-2">Questions About These Terms?</h3>
-            <p className="text-white/75 text-sm mb-4">Contact our legal team for clarifications before making a purchase.</p>
-            <a href="mailto:legal@steveobizzstore.com"
-              className="inline-flex items-center gap-2 bg-white text-[#4b70f5] font-bold rounded-xl px-5 py-3 text-sm hover:bg-white/90 transition-all">
-              legal@steveobizzstore.com
-            </a>
-          </div>
         </main>
       </div>
-
-      <footer className="border-t border-gray-100 py-8">
-        <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-400">
-          <p>© {new Date().getFullYear()} Steve O Bizz Store. All rights reserved.</p>
-          <div className="flex gap-6">
-            <Link href="/return-policy" className="hover:text-[#4b70f5] transition-colors">Return Policy</Link>
-            <Link href="/legal-notice" className="hover:text-[#4b70f5] transition-colors">Legal Notice</Link>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

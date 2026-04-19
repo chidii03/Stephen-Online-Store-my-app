@@ -1,6 +1,6 @@
 // app/return-policy/page.tsx
 import Link from "next/link";
-import { ArrowLeft, RefreshCw, Clock, Package, AlertCircle, CheckCircle, XCircle, Phone, Mail } from "lucide-react";
+import { RefreshCw, Clock, Package, AlertCircle, CheckCircle, XCircle } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export const metadata = { title: "Return Policy | Steve O Bizz Store" };
@@ -13,7 +13,7 @@ const Section = ({ icon: Icon, title, children }: { icon: LucideIcon; title: str
       </div>
       <h2 className="text-xl font-black text-gray-900 uppercase tracking-tight">{title}</h2>
     </div>
-    <div className="pl-13 ml-13">{children}</div>
+    <div className="pl-5 ml-5">{children}</div>
   </div>
 );
 
@@ -22,25 +22,18 @@ export default function ReturnPolicy() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <div className="bg-linear-to-br from-[#4b70f5] to-[#2952e3] text-white">
-        <div className="max-w-4xl mx-auto px-6 py-16">
-          <Link href="/" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm font-semibold mb-8 transition-colors">
-            <ArrowLeft size={16} /> Back to Store
-          </Link>
+        <div className="max-w-4xl mx-auto px-6 py-8">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-14 h-14 bg-white/15 rounded-2xl flex items-center justify-center">
               <RefreshCw size={28} />
             </div>
             <div>
-              <p className="text-white/60 text-sm font-semibold uppercase tracking-widest">Steve O Bizz Store</p>
               <h1 className="text-4xl font-black uppercase tracking-tighter">Return Policy</h1>
             </div>
           </div>
           <p className="text-white/75 max-w-xl leading-relaxed">
             We want you to be completely satisfied with every purchase. If something isn&apos;t right, we&apos;re here to make it right.
           </p>
-          <div className="mt-6 inline-flex items-center gap-2 bg-white/15 rounded-full px-4 py-2 text-sm font-semibold">
-            <Clock size={14} /> Last updated: April 2025
-          </div>
         </div>
       </div>
 
@@ -112,7 +105,7 @@ export default function ReturnPolicy() {
         <Section icon={RefreshCw} title="How to Initiate a Return">
           <ol className="space-y-6">
             {[
-              { step: "1", title: "Contact Support", desc: "Email us at support@steveobizzstore.com or WhatsApp us within 7 days of delivery. Include your Order ID and reason for return." },
+              { step: "1", title: "Contact Support", desc: "Email us at steveobizz@yahoo.com or WhatsApp us within 7 days of delivery. Include your Order ID and reason for return." },
               { step: "2", title: "Receive Approval", desc: "Our team will review your request within 24–48 hours and send a Return Merchandise Authorisation (RMA) number if approved." },
               { step: "3", title: "Ship the Item", desc: "Pack the item securely in its original packaging and ship to the address provided. Include your RMA number on the outside of the package." },
               { step: "4", title: "Inspection & Refund", desc: "Once we receive and inspect the item (2–3 business days), we will process your refund or exchange within 5–10 business days." },
@@ -135,7 +128,7 @@ export default function ReturnPolicy() {
             <p className="text-gray-700 leading-relaxed">
               If you received a <strong className="text-red-600">damaged, defective, or incorrect item</strong>, please contact us within <strong>48 hours</strong> of delivery. 
               Send clear photos of the item and packaging to{" "}
-              <a href="mailto:support@steveobizzstore.com" className="text-[#4b70f5] font-semibold underline">support@steveobizzstore.com</a>.
+              <a href="mailto:steveobizz@yahoo.com" className="text-[#4b70f5] font-semibold">steveobizz@yahoo.com</a>.
               We will arrange a <strong>free replacement or full refund</strong> at no cost to you.
             </p>
           </div>
@@ -167,22 +160,6 @@ export default function ReturnPolicy() {
             </table>
           </div>
         </Section>
-
-        {/* Contact */}
-        <div className="bg-linear-to-br from-[#4b70f5] to-[#2952e3] rounded-3xl p-8 text-white mt-10">
-          <h3 className="text-xl font-black uppercase tracking-tight mb-2">Need Help?</h3>
-          <p className="text-white/75 mb-6 text-sm">Our support team is available Monday–Saturday, 9am–6pm WAT.</p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <a href="mailto:support@steveobizzstore.com"
-              className="flex items-center gap-3 bg-white/15 hover:bg-white/25 rounded-xl px-5 py-3 transition-all font-semibold text-sm">
-              <Mail size={16} /> support@steveobizzstore.com
-            </a>
-            <a href="https://wa.me/2348000000000"
-              className="flex items-center gap-3 bg-white/15 hover:bg-white/25 rounded-xl px-5 py-3 transition-all font-semibold text-sm">
-              <Phone size={16} /> WhatsApp Us
-            </a>
-          </div>
-        </div>
       </div>
 
       <footer className="border-t border-gray-100 py-8">
