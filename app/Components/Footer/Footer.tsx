@@ -228,7 +228,7 @@ export default function Footer() {
             <h2 className="Unbounded text-xl mb-3">Quick Links</h2>
 
             <Link
-              href="/"
+              href="/return-policy"
               className="mb-2 text-gray-600 text-[17px] font-normal hover:text-(--prim-color) 
         hover:ps-2 transition-all duration-300"
             >
@@ -236,7 +236,7 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="/"
+              href="/terms"
               className="mb-2 text-gray-600 text-[17px] font-normal hover:text-(--prim-color) 
         hover:ps-2 transition-all duration-300"
             >
@@ -252,7 +252,7 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="/"
+              href="/legal-notice"
               className="mb-2 text-gray-600 text-[17px] font-normal hover:text-(--prim-color) 
         hover:ps-2 transition-all duration-300"
             >
