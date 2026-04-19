@@ -17,8 +17,7 @@ export interface OrderResponse {
   customer_phone: string;
   address:        string;
   state:          string;
-  amount:         number;
-  total_amount?:  number;   // some controllers use total_amount
+  total_amount?:  number; 
   status:         "PENDING" | "PAID" | "SHIPPED" | "DELIVERED";
   created_at:     string;
   items?:         unknown[];

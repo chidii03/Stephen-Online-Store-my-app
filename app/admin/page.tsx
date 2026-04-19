@@ -2,7 +2,7 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import { fetchAdminOrders, updateOrderStatus, adminLogin, OrderResponse,} from "@/app/lib/api";
-import { X, LayoutDashboard, Package, LogOut, RefreshCw, Eye, CheckCircle, Truck, Mail, MapPin, Phone, AlertCircle,} from "lucide-react";
+import { X, LayoutDashboard, Package, LogOut, RefreshCw, Eye, CheckCircle, Truck, MapPin, AlertCircle,} from "lucide-react";
 import { toast } from "react-toastify";
 
 export default function AdminDashboard() {
@@ -89,7 +89,7 @@ export default function AdminDashboard() {
   }
 
   // ── Dashboard ─────────────────────────────────────────────────────────────
-  const totalRevenue = orders.reduce((sum, o) => sum + (Number(o.amount) || 0), 0);
+  const totalRevenue = orders.reduce((sum, o) => sum + (Number(o.total_amount) || 0), 0);
   const pendingCount = orders.filter(o => o.status === "PAID").length;
 
   return (
@@ -205,10 +205,10 @@ export default function AdminDashboard() {
                       <td className="p-5">
                         <div className="font-black text-gray-900 uppercase text-xs">{order.customer_name}</div>
                         <div className="flex items-center gap-1 text-gray-500 text-[11px] mt-1">
-                          <Mail size={10} /> {order.customer_email}
+                          {order.customer_email}
                         </div>
                         <div className="flex items-center gap-1 text-gray-500 text-[11px]">
-                          <Phone size={10} /> {order.customer_phone}
+                         {order.customer_phone}
                         </div>
                       </td>
                       <td className="p-5">
@@ -220,7 +220,7 @@ export default function AdminDashboard() {
                         </div>
                       </td>
                       <td className="p-5 font-black text-lg">
-                        ₦{Number(order.amount).toLocaleString()}
+                       ₦{order.total_amount ? Number(order.total_amount).toLocaleString() : "0"}
                       </td>
                       <td className="p-5">
                         <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase ${
@@ -279,21 +279,20 @@ export default function AdminDashboard() {
                 </div>
                 <div className="p-4 bg-gray-50 rounded-2xl">
                   <p className="text-xs uppercase font-black text-gray-400 mb-1 tracking-widest">Amount</p>
-                  <p className="font-black text-xl">₦{Number(selectedOrder.amount).toLocaleString()}</p>
+                  <p className="font-black text-xl">₦{selectedOrder.total_amount ? Number(selectedOrder.total_amount).toLocaleString() :"0" }</p>
                 </div>
               </div>
 
               <div className="p-6 bg-gray-50 rounded-2xl mb-4">
                 <p className="text-xs uppercase font-black text-gray-400 mb-2 tracking-widest">Customer</p>
                 <p className="font-bold text-gray-900">{selectedOrder.customer_name}</p>
-                <p className="text-gray-600 text-sm flex items-center gap-1 mt-1"><Mail size={12} /> {selectedOrder.customer_email}</p>
-                <p className="text-gray-600 text-sm flex items-center gap-1"><Phone size={12} /> {selectedOrder.customer_phone}</p>
+                <p className="text-gray-600 text-sm flex items-center gap-1 mt-1">{selectedOrder.customer_email}</p>
+                <p className="text-gray-600 text-sm flex items-center gap-1">{selectedOrder.customer_phone}</p>
               </div>
 
               <div className="p-6 bg-gray-50 rounded-2xl mb-6">
                 <p className="text-xs uppercase font-black text-gray-400 mb-2 tracking-widest">Shipping To</p>
                 <p className="font-bold text-gray-900">{selectedOrder.address}</p>
-                <p className="text-gray-600 text-sm">{selectedOrder.state}</p>
               </div>
 
               <div className="flex gap-3">
