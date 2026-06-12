@@ -7,7 +7,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import { client, urlFor } from "@/app/lib/sanity";
 import LoadingSpinner from "@/app/Components/LoadingSpinner";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";

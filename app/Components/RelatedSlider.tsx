@@ -6,8 +6,7 @@ import { Navigation } from "swiper/modules";
 import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "@/app/lib/sanity";
-import "swiper/css";
-import "swiper/css/navigation";
+
 
 interface SanityImage {
   _type: "image";

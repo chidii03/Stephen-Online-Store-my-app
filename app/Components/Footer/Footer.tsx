@@ -267,7 +267,7 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-5 items-center sm:justify-between">
             {/* Copyright */}
             <p className=" text-gray-700 text-[15px] sm:text-sm text-center sm:text-left Unbounded whitespace-nowrap sm:whitespace-normal">
-              &copy; {year}. All rights reserved by Steve Obizz Store.
+              &copy; {year}. All rights reserved Steve Obizz Store.
             </p>
 
             {/* Payment Section */}

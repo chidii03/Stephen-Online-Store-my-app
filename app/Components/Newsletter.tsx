@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { API_URL } from "@/app/lib/api";
 
 const Newsletter = () => {
   const POPUP_DELAY_MS = 10000;
