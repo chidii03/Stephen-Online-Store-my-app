@@ -108,7 +108,7 @@ export default function HotDeals() {
             </h2>
           </div>
           <Link
-            href="/products"
+            href="/ShopAll"
             className="text-(--prim-color) font-bold hover:gap-3 transition-all flex items-center gap-2"
           >
             View All <i className="bi bi-arrow-right"></i>
