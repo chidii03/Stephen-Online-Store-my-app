@@ -42,7 +42,7 @@ export default function HotDeals() {
     const fetchHotDeals = async () => {
       try {
         const query = `*[_type == "product" && isHotDeal == true && isBestSales != true && isbanner != true] | order(HotDealOrder asc, _createdAt desc)[0...40]{
-          _id, name, price, "lessprice": lessPrice, slug, image, review, sale, soldCurrent, soldTotal, HotDealOrder
+          _id, name, price, "lessprice, slug, image, review, sale, soldCurrent, soldTotal, HotDealOrder
         }`;
         const data = await sanityFetch<Product[]>(query);
         setProducts(data || []);
