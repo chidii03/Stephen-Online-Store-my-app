@@ -35,8 +35,10 @@ export default function Cart() {
   const router = useRouter();
 
   const VAT_RATE = 0.001;
-  const BASE_DELIVERY = 500;
-  const PER_ITEM_DELIVERY = 500;
+  // Delivery fee is intentionally NOT calculated here — it depends on the
+  // delivery address (Ikeja vs. other Lagos areas vs. other states) and
+  // whether the order qualifies for free delivery, so it's only computed
+  // once on the checkout page after the customer enters that information.
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -76,16 +78,9 @@ export default function Cart() {
     return () => window.removeEventListener("storageUpdate", loadCart);
   }, []);
 
-  const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
-
-  const deliveryFee =
-    cartItems.length > 0
-      ? BASE_DELIVERY + (totalItems - 1) * PER_ITEM_DELIVERY
-      : 0;
-
   const estimatedTax = subtotal * VAT_RATE;
 
-  const grandTotal = subtotal + deliveryFee + estimatedTax;
+  const grandTotal = subtotal + estimatedTax;
 
   const handleRemove = (productId: string) => {
     const itemToRemove = cartItems.find((item) => item._id === productId);
@@ -284,15 +279,9 @@ export default function Cart() {
 
                   <div className="flex justify-between text-gray-600 text-sm">
                     <span className="Unbounded">Delivery Fee :</span>
-
-                    <div className="text-right">
-                      <span className="font-bold text-black Unbounded block">
-                        ₦{deliveryFee.toLocaleString()}
-                      </span>
-                      <span className="text-[10px] text-gray-400 italic">
-                        Across Nigeria
-                      </span>
-                    </div>
+                    <span className="text-[11px] text-gray-400 italic">
+                      Calculated at checkout
+                    </span>
                   </div>
 
                   <div className="flex justify-between text-gray-600 text-sm">
@@ -305,7 +294,9 @@ export default function Cart() {
                   <hr className="border-dashed" />
 
                   <div className="flex justify-between text-lg pt-2">
-                    <span className="Unbounded font-bold">Total :</span>
+                    <span className="Unbounded font-bold">
+                      Total (excl. delivery) :
+                    </span>
                     <span className="font-black text-(--prim-color) Unbounded">
                       ₦{grandTotal.toLocaleString()}
                     </span>
