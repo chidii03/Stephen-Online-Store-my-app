@@ -78,7 +78,7 @@ const ZONE_FEE: Record<OtherZone, number> = {
   southwest: 3500,
   southsouth_southeast: 4500,
   northcentral: 4500,
-  north: 5500,
+  north: 0,
 };
 
 export function calculateDeliveryFee(params: {

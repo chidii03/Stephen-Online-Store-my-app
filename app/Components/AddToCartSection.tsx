@@ -13,9 +13,12 @@ type SanityImage = {
 };
 
 interface DeliveryEstimate {
-  standard: string;
-  fastest: string;
+  deliveryDate: string;
+  fastestDelivery: string;
   countdown: string;
+  countdownHours: number;
+  countdownMins: number;
+  isSameDayAvailable: boolean;
 }
 
 interface Product {
@@ -108,11 +111,11 @@ const handleAddToCart = (isBuyNow = false) => {
         <div className="text-sm text-gray-600 mb-6 space-y-2">
           <p>
             Delivery{" "}
-            <span className="font-bold text-gray-900">{delivery.standard}</span>
+            <span className="font-bold text-gray-900">{delivery.deliveryDate}</span>
           </p>
           <p>
             Or fastest delivery{" "}
-            <span className="font-bold text-gray-900">{delivery.fastest}</span>.
+            <span className="font-bold text-gray-900">{delivery.fastestDelivery}</span>.
             Order within{" "}
             <span className="text-[#00B517] font-bold">
               {delivery.countdown}
@@ -191,7 +194,7 @@ const handleAddToCart = (isBuyNow = false) => {
         </div>
         <div className="flex justify-between flex-wrap gap-1">
           <span>Returns</span>
-          <span className="text-(--prim-color)">30-Day Free Returns</span>
+          <span className="text-(--prim-color)">7-Day Free Returns</span>
         </div>
       </div>
 

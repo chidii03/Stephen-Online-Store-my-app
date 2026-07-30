@@ -1,48 +1,77 @@
 export const getDeliveryEstimates = () => {
   const now = new Date();
-  const options = { weekday: "short", month: "short", day: "numeric" } as const;
 
-  // 1. Set the Cutoff time (5:00 PM)
-  const deadline = new Date(now);
-  deadline.setHours(17, 0, 0, 0);
-
-  // FIX: If it's already past 5 PM, the "next" deadline is 5 PM tomorrow
-  if (now > deadline) {
-    deadline.setDate(deadline.getDate() + 1);
-  }
-
-  // 2. Base Date for shipping
-  const baseDate = new Date(now);
-  // If past 5 PM, we can't ship until tomorrow
-  if (now.getHours() >= 17) {
-    baseDate.setDate(baseDate.getDate() + 1);
-  }
-
-  const addBusinessDays = (date: Date, days: number) => {
-    const result = new Date(date);
-    let added = 0;
-    while (added < days) {
-      result.setDate(result.getDate() + 1);
-      if (result.getDay() !== 0) { // Skip Sundays
-        added++;
-      }
-    }
-    return result;
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
   };
 
-  const fastest = addBusinessDays(baseDate, 3);
-  const standard = addBusinessDays(baseDate, 6);
+  const CLOSING_HOUR = 21;
+  const currentDay = now.getDay(); // Sunday = 0
+  const deliveryDate = new Date(now);
 
-  // 3. Countdown logic (Difference between now and the next 5 PM)
+  // Store closed on Sunday
+  if (currentDay === 0) {
+    deliveryDate.setDate(deliveryDate.getDate() + 1);
+  }
+  // Saturday after closing -> Monday
+  else if (currentDay === 6 && now.getHours() >= CLOSING_HOUR) {
+    deliveryDate.setDate(deliveryDate.getDate() + 2);
+  }
+  // Monday-Friday after closing -> Tomorrow
+  else if (now.getHours() >= CLOSING_HOUR) {
+    deliveryDate.setDate(deliveryDate.getDate() + 1);
+  }
+
+  // Countdown deadline
+  const deadline = new Date(now);
+
+  if (currentDay === 0) {
+    // Sunday -> Monday 9PM
+    deadline.setDate(deadline.getDate() + 1);
+    deadline.setHours(CLOSING_HOUR, 0, 0, 0);
+  } else {
+    deadline.setHours(CLOSING_HOUR, 0, 0, 0);
+
+    if (now > deadline) {
+      if (currentDay === 6) {
+        // Saturday after closing
+        deadline.setDate(deadline.getDate() + 2);
+      } else {
+        deadline.setDate(deadline.getDate() + 1);
+      }
+    }
+  }
+
   const diff = deadline.getTime() - now.getTime();
-  const hours = Math.floor(diff / (1000 * 60 * 60));
-  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const countdownHours = Math.max(
+    0,
+    Math.floor(diff / (1000 * 60 * 60))
+  );
+
+  const countdownMins = Math.max(
+    0,
+    Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+  );
+
+  let fastestDelivery = "Today • 40 mins - 1 hour";
+
+  if (currentDay === 0) {
+    fastestDelivery = "Monday • 40 mins - 1 hour";
+  } else if (currentDay === 6 && now.getHours() >= CLOSING_HOUR) {
+    fastestDelivery = "Monday • 40 mins - 1 hour";
+  } else if (now.getHours() >= CLOSING_HOUR) {
+    fastestDelivery = "Tomorrow • 40 mins - 1 hour";
+  }
 
   return {
-    fastest: fastest.toLocaleDateString("en-GB", options),
-    standard: standard.toLocaleDateString("en-GB", options),
-    countdown: `${hours} hrs ${mins} mins`, // For the Product Page
-    countdownHours: hours, // For the Shop All Page errors
-    countdownMins: mins,   // For the Shop All Page errors
+    deliveryDate: deliveryDate.toLocaleDateString("en-GB", options),
+    fastestDelivery,
+    isSameDayAvailable:
+      currentDay !== 0 && now.getHours() < CLOSING_HOUR,
+    countdown: `${countdownHours} hrs ${countdownMins} mins`,
+    countdownHours,
+    countdownMins,
   };
 };

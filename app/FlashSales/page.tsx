@@ -1,6 +1,6 @@
 import { client } from "@/app/lib/sanity";
 import ProductCard from "@/app/Components/ProductCard"; 
-import FlashSaleTimer from "@/app/Components/FlashSaleTimer"; // Import the new timer
+import FlashSaleTimer from "@/app/Components/FlashSaleTimer"; 
 import { Tag } from "lucide-react";
 
 export const dynamic = "force-dynamic";
