@@ -119,7 +119,7 @@ export default function AboutPage() {
                 playsInline
                 className="absolute inset-0 w-full h-full object-cover opacity-80"
               >
-                <source src="/videos/Airline.mp4" type="video/mp4" />
+                <source src="/videos/steveobizz.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
 
@@ -141,7 +141,7 @@ export default function AboutPage() {
             <div className="md:col-span-4 flex flex-col gap-6">
               <div className="h-64 md:flex-1 rounded-3xl overflow-hidden bg-gray-200 relative group">
                 <Image
-                  src="/images/warehouse.jpg"
+                  src="/categories/images/shop1.jpeg"
                   alt="Warehouse"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -154,7 +154,7 @@ export default function AboutPage() {
 
               <div className="h-64 md:flex-1 rounded-3xl overflow-hidden bg-gray-200 relative group">
                 <Image
-                  src="/images/consultation.jpg"
+                  src="/categories/images/shop2.jpeg"
                   alt="Consultation"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
