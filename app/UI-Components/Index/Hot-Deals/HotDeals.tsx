@@ -126,9 +126,6 @@ export default function HotDeals() {
 
           <div className="flex flex-col lg:flex-row items-center relative">
             <div className="w-full lg:w-1/2 p-10 lg:p-20 relative z-20 pointer-events-none">
-              {/* pointer-events-none ensures the link underneath is clickable, 
-                  pointer-events-auto is used on specific buttons below */}
-
               <div className="flex gap-3 mb-6">
                 <span className="px-4 py-1 rounded-full bg-(--prim-color) text-white text-[10px] font-black uppercase tracking-widest">
                   Flash Sale

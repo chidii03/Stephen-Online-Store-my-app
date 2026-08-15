@@ -34,7 +34,7 @@ export default function Arrivals() {
 
   useEffect(() => {
     const fetchArrivals = async () => {
-      const query = `*[_type == "product" && isArrivals == true] | order(_createdAt desc)[0...16]{
+      const query = `*[_type == "product" && isArrivals == true && isBestDeal != true isHotDeal != true && isBestSales != true      && isbanner != true] | order(_createdAt desc)[0...16]{
         _id, name, price, "lessprice": lessPrice, slug, image, review, sale, soldCurrent, soldTotal
       }`;
       const data = await sanityFetch<Product[]>(query);
