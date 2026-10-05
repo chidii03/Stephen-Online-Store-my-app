@@ -4,22 +4,24 @@ import Link from "next/link";
 import { CheckCircle2, Package, ArrowRight} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { API_URL } from "@/app/lib/api";
 
 export default function SuccessPage() {
   const router = useRouter();
   const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
-    const pending = localStorage.getItem("payment_pending");
-    if (!pending) {
-      router.push("/");
-    } else {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setIsValid(true);
-      localStorage.removeItem("payment_pending");
-      localStorage.removeItem("cart");
-      runFireWorks();
-    }
+    const reference = new URLSearchParams(window.location.search).get("reference") || new URLSearchParams(window.location.search).get("trxref");
+    if (!reference) { router.push("/"); return; }
+    fetch(`${API_URL}/api/orders/verify/${encodeURIComponent(reference)}`)
+      .then((response) => { if (!response.ok) throw new Error("Payment not verified"); return response.json(); })
+      .then(() => {
+        setIsValid(true);
+        localStorage.removeItem("payment_pending");
+        localStorage.removeItem("cart");
+        runFireWorks();
+      })
+      .catch(() => router.push("/"));
   }, [router]);
 
   if (!isValid) return null;
