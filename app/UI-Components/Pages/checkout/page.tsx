@@ -175,7 +175,7 @@ export default function Checkout() {
       ...prev,
       [name]: value,
       // Reset the Lagos area whenever the state changes away from Lagos,
-      // so a stale area value can't sneak into a non-Lagos order.
+     
       ...(name === "state" && value !== "Lagos" ? { lagosArea: "" } : {}),
     }));
   };
