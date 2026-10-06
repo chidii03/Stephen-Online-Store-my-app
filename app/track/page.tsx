@@ -63,7 +63,7 @@ export default function TrackOrder() {
           <button
             onClick={handleTrack}
             disabled={loading}
-            className="w-full bg-black text-white py-4 rounded-2xl font-bold text-sm hover:bg-gray-800 active:scale-95 transition-all disabled:opacity-50"
+            className="w-full bg-(--prim-color) text-white py-4 rounded-2xl font-bold text-sm hover:bg-gray-800 active:scale-95 transition-all disabled:opacity-50"
           >
             {loading ? "Locating…" : "Track Package"}
           </button>
