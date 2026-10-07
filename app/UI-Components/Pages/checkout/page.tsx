@@ -230,6 +230,8 @@ export default function Checkout() {
             }, ${formData.state}`,
       state: formData.state || "Lagos",
       lagosArea: formData.lagosArea || null,
+      deliveryMethod: deliveryOption,
+      pickupInfo: deliveryOption === "pickup" ? `PICKUP FROM STORE - ${STORE_ADDRESS}` : null,
       deliveryFee,
       amount: finalGrandTotal,
       cart: cartItems,
