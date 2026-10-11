@@ -167,7 +167,6 @@ const handleAddToCart = (isBuyNow = false) => {
         <div className="space-y-3">
           <button
             onClick={() => handleAddToCart(false)}
-            disabled={product.inStock === false}
             className="w-full bg-black hover:bg-gray-800 text-white font-bold py-3 rounded-full shadow-md transition-all active:scale-95 text-xs sm:text-sm uppercase tracking-wide"
           >
             {product.inStock === false ? "Out of Stock" : "Add to Cart"}
@@ -175,7 +174,6 @@ const handleAddToCart = (isBuyNow = false) => {
 
           <button
             onClick={() => handleAddToCart(true)}
-            disabled={product.inStock === false}
             className="w-full bg-(--prim-color) hover:brightness-90 text-white font-bold py-3 rounded-full shadow-md transition-all active:scale-95 text-xs sm:text-sm uppercase tracking-wide"
           >
             {product.inStock === false ? "Out of Stock" : "Buy Now"}
