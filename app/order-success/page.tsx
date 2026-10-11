@@ -11,15 +11,23 @@ export default function SuccessPage() {
   const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
-    const reference = new URLSearchParams(window.location.search).get("reference") || new URLSearchParams(window.location.search).get("trxref");
+    if (isValid) {
+      const frame = window.requestAnimationFrame(() => runFireWorks());
+      return () => window.cancelAnimationFrame(frame);
+    }
+  }, [isValid]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const reference = params.get("id") || params.get("reference") || params.get("trxref") || localStorage.getItem("pending_order_reference");
     if (!reference) { router.push("/"); return; }
     fetch(`${API_URL}/api/orders/verify/${encodeURIComponent(reference)}`)
       .then((response) => { if (!response.ok) throw new Error("Payment not verified"); return response.json(); })
       .then(() => {
-        setIsValid(true);
+        localStorage.removeItem("pending_order_reference");
         localStorage.removeItem("payment_pending");
         localStorage.removeItem("cart");
-        runFireWorks();
+        setIsValid(true);
       })
       .catch(() => router.push("/"));
   }, [router]);
