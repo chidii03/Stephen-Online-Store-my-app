@@ -23,6 +23,7 @@ interface DeliveryEstimate {
 
 interface Product {
   _id: string;
+  inStock?: boolean;
   
   name: string;
   price: number;
@@ -65,6 +66,10 @@ export default function AddToCartSection({ product }: Props) {
 
 const handleAddToCart = (isBuyNow = false) => {
   if (qty <= 0) return;
+  if (product.inStock === false) {
+    toast.error(`${product.name} is currently out of stock.`);
+    return;
+  }
 
   const existingCart: CartItem[] = JSON.parse(
     localStorage.getItem("cart") || "[]"
@@ -162,16 +167,18 @@ const handleAddToCart = (isBuyNow = false) => {
         <div className="space-y-3">
           <button
             onClick={() => handleAddToCart(false)}
+            disabled={product.inStock === false}
             className="w-full bg-black hover:bg-gray-800 text-white font-bold py-3 rounded-full shadow-md transition-all active:scale-95 text-xs sm:text-sm uppercase tracking-wide"
           >
-            Add to Cart
+            {product.inStock === false ? "Out of Stock" : "Add to Cart"}
           </button>
 
           <button
             onClick={() => handleAddToCart(true)}
+            disabled={product.inStock === false}
             className="w-full bg-(--prim-color) hover:brightness-90 text-white font-bold py-3 rounded-full shadow-md transition-all active:scale-95 text-xs sm:text-sm uppercase tracking-wide"
           >
-            Buy Now
+            {product.inStock === false ? "Out of Stock" : "Buy Now"}
           </button>
         </div>
 
