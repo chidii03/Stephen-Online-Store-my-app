@@ -167,14 +167,16 @@ const handleAddToCart = (isBuyNow = false) => {
         <div className="space-y-3">
           <button
             onClick={() => handleAddToCart(false)}
-            className="w-full bg-black hover:bg-gray-800 text-white font-bold py-3 rounded-full shadow-md transition-all active:scale-95 text-xs sm:text-sm uppercase tracking-wide"
+            aria-disabled={product.inStock === false}
+            className={`w-full bg-black text-white font-bold py-3 rounded-full shadow-md transition-all active:scale-95 text-xs sm:text-sm uppercase tracking-wide ${product.inStock === false ? "cursor-not-allowed opacity-60" : "hover:bg-gray-800"}`}
           >
             {product.inStock === false ? "Out of Stock" : "Add to Cart"}
           </button>
 
           <button
             onClick={() => handleAddToCart(true)}
-            className="w-full bg-(--prim-color) hover:brightness-90 text-white font-bold py-3 rounded-full shadow-md transition-all active:scale-95 text-xs sm:text-sm uppercase tracking-wide"
+            aria-disabled={product.inStock === false}
+            className={`w-full bg-(--prim-color) text-white font-bold py-3 rounded-full shadow-md transition-all active:scale-95 text-xs sm:text-sm uppercase tracking-wide ${product.inStock === false ? "cursor-not-allowed opacity-60" : "hover:brightness-90"}`}
           >
             {product.inStock === false ? "Out of Stock" : "Buy Now"}
           </button>

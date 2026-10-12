@@ -10,6 +10,15 @@ export default function SuccessPage() {
   const router = useRouter();
   const [isValid, setIsValid] = useState(false);
 
+  const clearCartAfterPayment = () => {
+    // Persist an empty cart and notify the persistent navbar layout.
+    localStorage.setItem("cart", "[]");
+    localStorage.removeItem("pending_order_reference");
+    localStorage.removeItem("payment_pending");
+    window.dispatchEvent(new Event("storageUpdate"));
+    window.dispatchEvent(new Event("storage"));
+  };
+
   useEffect(() => {
     if (isValid) {
       const frame = window.requestAnimationFrame(() => runFireWorks());
@@ -21,15 +30,26 @@ export default function SuccessPage() {
     const params = new URLSearchParams(window.location.search);
     const reference = params.get("id") || params.get("reference") || params.get("trxref") || localStorage.getItem("pending_order_reference");
     if (!reference) { router.push("/"); return; }
-    fetch(`${API_URL}/api/orders/verify/${encodeURIComponent(reference)}`)
-      .then((response) => { if (!response.ok) throw new Error("Payment not verified"); return response.json(); })
+    let cancelled = false;
+
+    fetch(`${API_URL}/api/orders/verify/${encodeURIComponent(reference)}`, {
+      cache: "no-store",
+    })
+      .then(async (response) => {
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error("Payment not verified");
+        return result;
+      })
       .then(() => {
-        localStorage.removeItem("pending_order_reference");
-        localStorage.removeItem("payment_pending");
-        localStorage.removeItem("cart");
+        if (cancelled) return;
+        clearCartAfterPayment();
         setIsValid(true);
       })
       .catch(() => router.push("/"));
+
+    return () => {
+      cancelled = true;
+    };
   }, [router]);
 
   if (!isValid) return null;
