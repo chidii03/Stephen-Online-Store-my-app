@@ -62,13 +62,10 @@ export default async function ShopAll() {
               </div>
               <div className="text-xs md:text-sm">
                <p className="font-bold text-gray-900">
-  Order within <span className="text-(--prim-color)">
-    {estimates.countdownHours} hrs {estimates.countdownMins} mins
-  </span>
-</p>
-                <p className="text-gray-500">
-                  Get it by <span className="font-medium text-gray-700">{estimates.standard}</span>
-                </p>
+                  Order within <span className="text-(--prim-color)">
+                   {estimates.countdownHours} hrs {estimates.countdownMins} mins
+                    </span>
+               </p>
               </div>
             </div>
           </div>
