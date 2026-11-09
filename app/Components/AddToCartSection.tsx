@@ -61,8 +61,6 @@ export default function AddToCartSection({ product }: Props) {
   const handleQtyChange = (amount: number) => {
     setQty(Math.max(1, amount));
   };
- 
-  // Inside AddToCartSection.tsx
 
 const handleAddToCart = (isBuyNow = false) => {
   if (qty <= 0) return;
@@ -80,7 +78,6 @@ const handleAddToCart = (isBuyNow = false) => {
   );
 
   if (itemIndex > -1) {
-    // Correctly incrementing based on the current local state 'qty'
     existingCart[itemIndex].qty += qty;
   } else {
     const newItem = {
